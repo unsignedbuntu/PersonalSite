@@ -1,16 +1,18 @@
 # Terminal Portfolio Website
 
-Modern, terminal temalı portföy websitesi. ddaniel.dev'den ilham alınarak oluşturulmuştur.
+Modern terminal-themed portfolio website inspired by ddaniel.dev.
 
-## 🚀 Özellikler
+## 🚀 Features
 
-- **Terminal Teması**: Retro terminal görünümü ve hissi
-- **Typing Animasyonları**: Gerçekçi terminal yazma efektleri
-- **Responsive Tasarım**: Tüm cihazlarda mükemmel görünüm
-- **Interaktif Bileşenler**: Terminal komutları ile navigasyon
+- **Terminal Theme**: Retro terminal look and feel
+- **Typing Animations**: Realistic terminal typing effects
+- **Responsive Design**: Perfect display on all devices
+- **Interactive Components**: Navigation with terminal commands
 - **Modern Stack**: Next.js 14, TypeScript, Tailwind CSS, Framer Motion
+- **Scroll Navigation**: Right-side navigation dots with active section highlighting
+- **Hidden Scrollbar**: Clean, modern appearance without visible scrollbars
 
-## 🛠️ Teknolojiler
+## 🛠️ Technologies
 
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
@@ -19,74 +21,74 @@ Modern, terminal temalı portföy websitesi. ddaniel.dev'den ilham alınarak olu
 - **Icons**: Lucide React
 - **Font**: JetBrains Mono
 
-## 📦 Kurulum
+## 📦 Installation
 
-1. **Projeyi klonlayın:**
+1. **Clone the repository:**
 ```bash
 git clone <repository-url>
 cd personal-portfolio
 ```
 
-2. **Bağımlılıkları yükleyin:**
+2. **Install dependencies:**
 ```bash
 npm install
-# veya
+# or
 yarn install
 ```
 
-3. **Geliştirme sunucusunu başlatın:**
+3. **Start the development server:**
 ```bash
 npm run dev
-# veya
+# or
 yarn dev
 ```
 
-4. **Tarayıcınızda açın:**
+4. **Open in your browser:**
 ```
 http://localhost:3000
 ```
 
-## 🎨 Özelleştirme
+## 🎨 Customization
 
-### Kişisel Bilgileri Güncelleme
+### Updating Personal Information
 
 1. **Hero Section** (`src/components/HeroSection.tsx`):
-   - İsim ve unvan bilgilerini güncelleyin
-   - Tanıtım metnini düzenleyin
+   - Update name and title information
+   - Edit introduction text
 
 2. **About Section** (`src/components/AboutSection.tsx`):
-   - Hakkınızda bilgilerini güncelleyin
-   - Deneyim ve eğitim bilgilerini düzenleyin
+   - Update your personal information
+   - Edit experience and education details
 
 3. **Skills Section** (`src/components/SkillsSection.tsx`):
-   - Yeteneklerinizi ve seviyeleri güncelleyin
-   - Yeni kategoriler ekleyin
+   - Update your skills and proficiency levels
+   - Add new categories
 
 4. **Projects Section** (`src/components/ProjectsSection.tsx`):
-   - Projelerinizi ekleyin/düzenleyin
-   - GitHub ve demo linklerini güncelleyin
+   - Add/edit your projects
+   - Update GitHub and demo links
 
 5. **Contact Section** (`src/components/ContactSection.tsx`):
-   - Sosyal medya linklerinizi güncelleyin
-   - İletişim bilgilerinizi düzenleyin
+   - Update your social media links
+   - Edit contact information
 
-### Renk Temasını Değiştirme
+### Changing Color Theme
 
-`tailwind.config.js` dosyasındaki `terminal` renklerini düzenleyerek tema renklerini değiştirebilirsiniz:
+You can change theme colors by editing the `terminal` colors in `tailwind.config.js`:
 
 ```javascript
 colors: {
   terminal: {
-    bg: '#0a0a0a',      // Arka plan
-    text: '#00ff00',    // Ana yeşil renk
-    secondary: '#ffffff', // Beyaz metin
-    accent: '#ff6b6b',  // Vurgu rengi
-    border: '#333333',  // Kenarlık rengi
+    bg: '#0a0a0a',      // Background
+    text: '#00ff00',    // Main green color
+    secondary: '#ffffff', // White text
+    accent: '#ff6b6b',  // Accent color
+    border: '#333333',  // Border color
   }
 }
 ```
 
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
 src/
@@ -99,61 +101,62 @@ src/
 │   ├── ContactSection.tsx
 │   ├── HeroSection.tsx
 │   ├── ProjectsSection.tsx
+│   ├── ScrollIndicator.tsx
 │   ├── SkillsSection.tsx
 │   ├── TerminalHeader.tsx
 │   └── TypingAnimation.tsx
 └── lib/
-    └── (yardımcı fonksiyonlar)
+    └── (utility functions)
 ```
 
 ## 🚀 Deployment
 
-### Vercel (Önerilen)
+### Vercel (Recommended)
 
-1. Projeyi GitHub'a push edin
-2. [Vercel](https://vercel.com)'e giriş yapın
-3. Repository'yi import edin
-4. Otomatik deploy edilecektir
+1. Push your project to GitHub
+2. Sign in to [Vercel](https://vercel.com)
+3. Import your repository
+4. It will be automatically deployed
 
 ### Netlify
 
-1. Projeyi build edin:
+1. Build the project:
 ```bash
 npm run build
 ```
 
-2. `out` klasörünü Netlify'a upload edin
+2. Upload the `out` folder to Netlify
 
-### Manuel Build
+### Manual Build
 
 ```bash
 npm run build
 npm start
 ```
 
-## 🎯 Performans Optimizasyonları
+## 🎯 Performance Optimizations
 
-- **Code Splitting**: Next.js otomatik code splitting
-- **Image Optimization**: Next.js Image component kullanımı
-- **Font Optimization**: Google Fonts optimizasyonu
-- **CSS Purging**: Tailwind CSS otomatik purging
+- **Code Splitting**: Automatic Next.js code splitting
+- **Image Optimization**: Next.js Image component usage
+- **Font Optimization**: Google Fonts optimization
+- **CSS Purging**: Tailwind CSS automatic purging
 - **Lazy Loading**: Framer Motion lazy loading
 
-## 🤝 Katkıda Bulunma
+## 🤝 Contributing
 
-1. Fork edin
-2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
-3. Commit edin (`git commit -m 'Add amazing feature'`)
-4. Push edin (`git push origin feature/amazing-feature`)
-5. Pull Request oluşturun
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📄 Lisans
+## 📄 License
 
-Bu proje MIT lisansı altında lisanslanmıştır.
+This project is licensed under the MIT License.
 
-## 🙏 Teşekkürler
+## 🙏 Acknowledgments
 
-- [ddaniel.dev](https://ddaniel.dev) - Tasarım ilhamı
-- [Framer Motion](https://framer.com/motion) - Animasyonlar
+- [ddaniel.dev](https://ddaniel.dev) - Design inspiration
+- [Framer Motion](https://framer.com/motion) - Animations
 - [Tailwind CSS](https://tailwindcss.com) - Styling
-- [Lucide React](https://lucide.dev) - İkonlar
+- [Lucide React](https://lucide.dev) - Icons
