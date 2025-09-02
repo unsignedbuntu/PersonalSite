@@ -9,6 +9,7 @@ import SkillsSection from '@/components/SkillsSection'
 import ProjectsSection from '@/components/ProjectsSection'
 import ContactSection from '@/components/ContactSection'
 import ScrollIndicator from '@/components/ScrollIndicator'
+import MouseFollower from '@/components/MouseFollower'
 
 export default function Home() {
   const [mounted, setMounted] = useState(false)
@@ -30,6 +31,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
+      <MouseFollower />
       <TerminalHeader />
       <ScrollIndicator />
       

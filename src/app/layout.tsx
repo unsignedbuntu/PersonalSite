@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+import MouseFollower from '@/components/MouseFollower'
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="tr" className="dark">
       <body className={`${jetbrainsMono.variable} font-mono bg-terminal-bg text-terminal-secondary min-h-screen`}>
+      <MouseFollower /> 
         <div className="min-h-screen bg-gradient-to-br from-terminal-bg via-gray-900 to-terminal-bg">
           {children}
         </div>

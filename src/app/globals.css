@@ -95,3 +95,29 @@ html {
   60% { transform: translate(-2px, 2px); }
   80% { transform: translate(-2px, -2px); }
 }
+
+/* Mouse Follower Effect */
+.mouse-follower {
+  position: fixed;
+  top: -15px;
+  left: -15px;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, rgba(0, 255, 0, 0.4) 0%, rgba(0, 255, 0, 0.1) 70%, transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease-out, width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
+  filter: blur(3px);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+/* Hover durumunda büyüme efekti */
+.mouse-follower.hovering-link {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: -30px;
+  background: radial-gradient(circle, rgba(0, 255, 0, 0.6) 0%, rgba(0, 255, 0, 0.2) 70%, transparent 100%);
+  box-shadow: 0 0 40px rgba(0, 255, 0, 0.5);
+}
