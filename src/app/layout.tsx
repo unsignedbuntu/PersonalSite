@@ -1,24 +1,15 @@
-import type { Metadata, Viewport } from 'next'
-import { JetBrains_Mono } from 'next/font/google'
-import './globals.css'
-import MouseFollower from '@/components/MouseFollower'
+// src/app/layout.tsx
+import './globals.css';
+import dynamic from 'next/dynamic';
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-})
+const CometCursor = dynamic(() => import('@/components/CometCursor'), {
+  ssr: false, 
+});
 
-export const metadata: Metadata = {
-  title: 'Portfolio | Terminal',
-  description: 'Modern terminal-themed portfolio website',
-  keywords: ['portfolio', 'developer', 'terminal', 'web development'],
-  authors: [{ name: 'Your Name' }],
-}
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-}
+export const metadata = {
+  title: 'Atalay Beyazıt - Portföy',
+  description: 'Full Stack Developer',
+};
 
 export default function RootLayout({
   children,
@@ -26,13 +17,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="tr" className="dark">
-      <body className={`${jetbrainsMono.variable} font-mono bg-terminal-bg text-terminal-secondary min-h-screen`}>
-      <MouseFollower /> 
-        <div className="min-h-screen bg-gradient-to-br from-terminal-bg via-gray-900 to-terminal-bg">
-          {children}
-        </div>
+    <html lang="tr">
+      {/* Body etiketinde artık className yok, tüm stiller globals.css'ten geliyor */}
+      <body>
+        <div className="background-glow"></div>
+        <CometCursor />
+        {children}
       </body>
     </html>
-  )
+  );
 }
