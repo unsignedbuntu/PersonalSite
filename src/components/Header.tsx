@@ -30,7 +30,6 @@ export default function Header() {
                 </span>
                 {item.name}
               </a>
-              {/* Son eleman hariç hepsinin sonuna ayırıcı ekle */}
               {index < navItems.length - 1 && (
                 <span className="hidden md:inline-block text-gray-600 mx-4">|</span>
               )}

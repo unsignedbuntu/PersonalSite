@@ -12,7 +12,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-7xl md:text-8xl font-bold text-yellow-300 mb-2"
+          className="text-7xl md:text-8xl font-bold text-blue-300 mb-2"
         >
           Atalay Beyazıt {/* KENDİ İSMİNİZLE DEĞİŞTİRİN */}
         </motion.h1>
@@ -27,7 +27,7 @@ export default function HeroSection() {
           wrapper="h2"
           speed={40}
           repeat={Infinity}
-          className="text-4xl md:text-5xl font-semibold text-white mb-6"
+          className="text-4xl md:text-5xl font-semibold text-green-300 mb-6"
         />
 
         <motion.p 
@@ -48,13 +48,13 @@ export default function HeroSection() {
         >
           <a
             href="#contact"
-            className="px-8 py-3 bg-yellow-300 text-black font-bold rounded-md transition-transform duration-300 hover:scale-105"
+            className="px-8 py-3 bg-red-300 text-black font-bold rounded-md transition-transform duration-300 hover:scale-105"
           >
             Contact Me
           </a>
           <a
             href="#projects"
-            className="px-8 py-3 border border-yellow-300 text-yellow-300 font-bold rounded-md transition-all duration-300 hover:bg-yellow-300 hover:text-black hover:scale-105"
+            className="px-8 py-3 border border-red-300 text-red-300 font-bold rounded-md transition-all duration-300 hover:bg-red-300 hover:text-black hover:scale-105"
           >
             Learn More
           </a>

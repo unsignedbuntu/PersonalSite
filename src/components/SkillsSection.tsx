@@ -17,7 +17,9 @@ export default function SkillsSection() {
         viewport={{ once: true }}
         className="max-w-4xl text-center"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">YETENEKLERİM</h2>
+       <h2 className="text-5xl md:text-6xl font-black text-gray-200 mb-4 tracking-widest uppercase">
+  YETENEKLERİM
+</h2>
         <div className="w-24 h-1 bg-yellow-300 mx-auto mb-8"></div>
         <div className="flex flex-wrap justify-center gap-4">
           {skills.map((skill, index) => (
