@@ -54,7 +54,7 @@ export default function ScrollIndicator() {
           >
             {/* Her bir nokta yerine kısa bir dikey çizgi */}
             <div
-              className={`w-2 h-9 rounded-full transition-all duration-300 
+              className={`w-2 h-12 rounded-full transition-all duration-300 
                 ${activeSection === sectionId
                   ? 'bg-yellow-300 shadow-[0_0_10px_rgba(253,224,71,0.7)]' // Aktif durum
                   : 'bg-gray-500 group-hover:bg-yellow-300' // Pasif durum
