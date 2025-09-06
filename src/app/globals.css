@@ -65,12 +65,12 @@ html {
 .neon-divider {
   width: 12px; /* Çizginin kalınlığı */
   height: 32rem; /* 192px - Yüksekliği buradan ayarlayabilirsiniz */
-  background-color: #34d399; /* Ana parlak yeşil renk */
+  background-color: #fd01e8; /* Ana parlak yeşil renk */
   border-radius: 9999px;
   /* Kutu gölgesi ile çok katmanlı bir parlama efekti oluşturuyoruz */
-  box-shadow: 0 0 5px #34d399, 
-              0 0 15px #34d399, 
-              0 0 30px #34d399, 
+  box-shadow: 0 0 5px fd01e8, 
+              0 0 15px fd01e8, 
+              0 0 30px fd01e8, 
               0 0 60px rgba(52, 211, 153, 0.5);
   animation: flicker 3s infinite alternate; /* Titreşme animasyonu */
 }
@@ -78,15 +78,30 @@ html {
 /* Parlamanın hafifçe titreşmesini sağlayan animasyon */
 @keyframes flicker {
   0%, 100% {
-    box-shadow: 0 0 5px #34d399, 
-                0 0 15px #34d399, 
-                0 0 30px #34d399, 
+    box-shadow: 0 0 5px fd01e8, 
+                0 0 15px fd01e8, 
+                0 0 30px fd01e8, 
                 0 0 60px rgba(52, 211, 153, 0.5);
   }
   50% {
-    box-shadow: 0 0 10px #4ade80, 
-                0 0 25px #4ade80, 
-                0 0 45px #4ade80, 
+    box-shadow: 0 0 10px fd01e8, 
+                0 0 25px fd01e8, 
+                0 0 45px fd01e8, 
                 0 0 80px rgba(74, 222, 128, 0.6);
   }
+}
+
+/* Line clamp utility classes */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
