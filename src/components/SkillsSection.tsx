@@ -38,11 +38,11 @@ export default function SkillsSection() {
           <div className="flex flex-col lg:flex-row items-center justify-center gap-12">
             {/* Sol Taraf: Yazı Bölümü */}
             <motion.div /* ... */ className="w-full lg:w-1/3 text-gray-300">
-              <h2 className="text-5xl font-bold text-green-400 mb-6">SKILLS {'{'}</h2>
+              <h2 className="text-5xl font-bold text-purple-400 mb-6">SKILLS {'{'}</h2>
               <p className="text-lg leading-relaxed">
                 I excel in dissecting complex problems into manageable tasks, essential for crafting robust, maintainable code in large-scale projects.
               </p>
-              <h2 className="text-5xl font-bold text-green-400 mt-6">{'}'}</h2>
+              <h2 className="text-5xl font-bold text-purple-400 mt-6">{'}'}</h2>
             </motion.div>
 
             {/* --- DEĞİŞİKLİK BURADA BAŞLIYOR --- */}
@@ -52,8 +52,8 @@ export default function SkillsSection() {
               {/* İlk Yetenek Sütunu (sağa hizalı) */}
               <div className="flex flex-col gap-y-8 items-end">
                 {firstColumnSkills.map((skill, index) => (
-                  <motion.div /* ... */ className="flex items-center gap-4 group">
-                    <span className="font-mono text-lg text-white group-hover:text-green-400 transition-colors text-right">
+                  <motion.div key={skill.name} className="flex items-center gap-4 group">
+                    <span className="font-mono text-lg text-white group-hover:text-purple-400 transition-colors text-right">
                       {skill.name}
                     </span>
                     {skill.icon}
@@ -67,9 +67,9 @@ export default function SkillsSection() {
               {/* İkinci Yetenek Sütunu (sola hizalı) */}
               <div className="flex flex-col gap-y-8 items-start">
                 {secondColumnSkills.map((skill, index) => (
-                  <motion.div /* ... */ className="flex items-center gap-4 group">
+                  <motion.div key={skill.name} className="flex items-center gap-4 group">
                     {skill.icon}
-                    <span className="font-mono text-lg text-white group-hover:text-green-400 transition-colors">
+                    <span className="font-mono text-lg text-white group-hover:text-purple-400 transition-colors">
                       {skill.name}
                     </span>
                   </motion.div>
