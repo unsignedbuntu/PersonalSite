@@ -2,41 +2,89 @@
 'use client';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Modern Web Geliştirme Teknikleri',
-    excerpt: 'React, Next.js ve TypeScript kullanarak modern web uygulamaları geliştirme sürecinde dikkat edilmesi gereken önemli noktalar.',
-    date: '2024-01-15',
-    readTime: '5 dk',
-    category: 'Web Development',
-    tags: ['React', 'Next.js', 'TypeScript'],
-    slug: 'modern-web-gelistirme-teknikleri'
-  },
-  {
-    id: 2,
-    title: 'AI ve Machine Learning Trendleri',
-    excerpt: 'Yapay zeka ve makine öğrenmesi alanındaki son gelişmeler ve bu teknolojilerin gelecekteki potansiyel kullanım alanları.',
-    date: '2024-01-10',
-    readTime: '7 dk',
-    category: 'AI/ML',
-    tags: ['AI', 'Machine Learning', 'Python'],
-    slug: 'ai-ve-machine-learning-trendleri'
-  },
-  {
-    id: 3,
-    title: 'Clean Code Prensipleri',
-    excerpt: 'Temiz kod yazmanın önemi ve sürdürülebilir yazılım geliştirme süreçlerinde uygulanması gereken best practice\'ler.',
-    date: '2024-01-05',
-    readTime: '6 dk',
-    category: 'Software Engineering',
-    tags: ['Clean Code', 'Best Practices', 'Development'],
-    slug: 'clean-code-prensipleri'
-  }
-];
+// Blog post interface
+interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  category: string;
+  tags: string[];
+  slug: string;
+}
 
 export default function BlogSection() {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // API'den blog yazılarını çek
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        console.log('API çağrısı yapılıyor...');
+        const response = await fetch('http://localhost:8000/api/posts');
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+          throw new Error('HTTP ' + response.status + ': Blog yazıları yüklenemedi');
+        }
+        const data = await response.json();
+        console.log('APIden gelen data:', data);
+        setBlogPosts(data);
+      } catch (err) {
+        console.error('API Hatası:', err);
+        setError(err instanceof Error ? err.message : 'Bir hata oluştu');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogPosts();
+  }, []);
+
+  // Loading durumu
+  if (loading) {
+    return (
+      <section id="blog" className="min-h-screen flex items-center justify-center p-8 md:p-16">
+        <div className="max-w-6xl w-full text-center">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-white"
+          >
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400"></div>
+            <p className="mt-4 text-gray-300">Blog yazıları yükleniyor...</p>
+          </motion.div>
+        </div>
+      </section>
+    );
+  }
+
+  // Error durumu
+  if (error) {
+    return (
+      <section id="blog" className="min-h-screen flex items-center justify-center p-8 md:p-16">
+        <div className="max-w-6xl w-full text-center">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-red-400"
+          >
+            <p className="text-xl">❌ {error}</p>
+            <p className="text-gray-300 mt-2">FastAPI sunucusunun çalıştığından emin olun.</p>
+            <p className="text-gray-400 text-sm mt-4">
+              Sunucu: <code>http://localhost:8000</code>
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="blog" className="min-h-screen flex items-center justify-center p-8 md:p-16">
       <div className="max-w-6xl w-full">

@@ -86,27 +86,43 @@ blog_posts = [
 projects_data = [
     {
         "id": 1,
-        "name": "e-commerce-app",
-        "description": "Modern e-ticaret platformu",
-        "technologies": ["Next.js", "TypeScript", "Stripe"],
-        "github": "https://github.com/username/e-commerce-app",
-        "demo": "https://e-commerce-demo.vercel.app"
+        "name": "Modern E-Commerce Platform",
+        "description": "Full-stack graduation project with AI-powered features. .NET Core Web API backend with comprehensive e-commerce functionality, Next.js frontend with modern UX, and Python microservice for AI image generation. Features multi-layer Redis caching, JWT authentication, and gamified loyalty program.",
+        "technologies": [".NET Core", "Next.js", "TypeScript", "Python", "Redis", "SQL Server", "Entity Framework", "JWT", "Docker", "Stable Diffusion AI"],
+        "github": "https://github.com/unsignedbuntu",
+        "demo": None
     },
     {
         "id": 2,
-        "name": "task-management",
-        "description": "Takım çalışması için proje yönetim aracı",
-        "technologies": ["React", "Node.js", "Socket.io"],
-        "github": "https://github.com/username/task-management",
-        "demo": "https://task-management-demo.vercel.app"
+        "name": "RepsyAPI - Software Package System",
+        "description": "Enterprise-grade REST API for software package management inspired by Maven/npm. Features modular architecture with pluggable storage strategies (Filesystem & Minio S3), PostgreSQL database, and Docker containerization. Supports package deployment, versioning, and download operations.",
+        "technologies": ["Java", "Spring Boot", "PostgreSQL", "Minio S3", "Docker", "Maven", "REST API"],
+        "github": "https://github.com/unsignedbuntu/RepsyAPI",
+        "demo": None
     },
     {
         "id": 3,
-        "name": "ai-chat-bot",
-        "description": "Yapay zeka destekli sohbet botu",
-        "technologies": ["Python", "FastAPI", "OpenAI"],
-        "github": "https://github.com/username/ai-chat-bot",
+        "name": "ESBAŞ B2B Data Processing System",
+        "description": "Professional internship project for real-time proximity card data processing. ASP.NET Core Web API backend integrated with MSSQL database and Entity Framework Core. React frontend with real-time filtering capabilities for B2B environment data visualization.",
+        "technologies": ["ASP.NET Core", "Entity Framework", "MSSQL", "React", "Proximity Card Integration", "Real-time Processing"],
+        "github": "https://github.com/unsignedbuntu",
         "demo": None
+    },
+    {
+        "id": 4,
+        "name": "University Code Repository",
+        "description": "Comprehensive collection of academic projects and coursework including data structures implementations, OOP concepts, database systems, and automata theory. Features algorithms in C, Java projects, and educational resources developed throughout computer engineering studies.",
+        "technologies": ["C", "Java", "Data Structures", "OOP", "Database Design", "Algorithms"],
+        "github": "https://github.com/unsignedbuntu/FinalYearProject_Mobile",
+        "demo": None
+    },
+    {
+        "id": 5,
+        "name": "Personal Portfolio Website",
+        "description": "Modern portfolio website built from scratch to showcase full-stack development skills. Features FastAPI backend with dynamic content management, Next.js frontend with smooth animations, and comprehensive project showcase system.",
+        "technologies": ["FastAPI", "Next.js", "TypeScript", "Python", "Framer Motion", "Tailwind CSS"],
+        "github": "https://github.com/atalaydev/portfolio",
+        "demo": "https://atalaydev.vercel.app"
     }
 ]
 

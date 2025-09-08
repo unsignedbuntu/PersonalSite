@@ -1,18 +1,22 @@
 // src/components/SkillsSection.tsx
 'use client';
 import { motion } from 'framer-motion';
-import { FaReact, FaPython, FaNodeJs } from 'react-icons/fa';
-import { SiTypescript, SiJavascript, SiNextdotjs, SiTailwindcss, SiRust } from 'react-icons/si';
+import { FaReact, FaPython, FaNodeJs, FaDocker } from 'react-icons/fa';
+import { SiTypescript, SiJavascript, SiNextdotjs, SiTailwindcss, SiSharp, SiDotnet, SiRedis, SiPostgresql } from 'react-icons/si';
 
 const skills = [
-  // Görsel denge için sıralamayı koruyoruz
+  // CV'deki teknolojilere göre güncellenmiş skills
+  { name: 'C#', icon: <SiSharp size={28} className="text-purple-500" /> },
+  { name: '.NET Core', icon: <SiDotnet size={28} className="text-purple-400" /> },
   { name: 'TypeScript', icon: <SiTypescript size={28} className="text-blue-400" /> },
   { name: 'React', icon: <FaReact size={28} className="text-blue-300" /> },
-  { name: 'Python', icon: <FaPython size={28} className="text-blue-500" /> },
-  { name: 'Node.js', icon: <FaNodeJs size={28} className="text-green-500" /> },
-  { name: 'JavaScript', icon: <SiJavascript size={28} className="text-yellow-400" /> },
   { name: 'Next.js', icon: <SiNextdotjs size={28} className="text-white" /> },
-  { name: 'Rust', icon: <SiRust size={28} className="text-orange-500" /> },
+  { name: 'Node.js', icon: <FaNodeJs size={28} className="text-green-500" /> },
+  { name: 'Python', icon: <FaPython size={28} className="text-blue-500" /> },
+  { name: 'JavaScript', icon: <SiJavascript size={28} className="text-yellow-400" /> },
+  { name: 'Redis', icon: <SiRedis size={28} className="text-red-500" /> },
+  { name: 'Docker', icon: <FaDocker size={28} className="text-blue-600" /> },
+  { name: 'SQL', icon: <SiPostgresql size={28} className="text-blue-700" /> },
   { name: 'Tailwind CSS', icon: <SiTailwindcss size={28} className="text-teal-400" /> },
 ];
 
