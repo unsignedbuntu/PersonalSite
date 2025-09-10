@@ -1,8 +1,7 @@
-// src/components/BlogSection.tsx
+// src/components/BlogSectionSSR.tsx
 'use client';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
-import { useState, useEffect } from 'react';
 
 // Blog post interface
 interface BlogPost {
@@ -16,75 +15,12 @@ interface BlogPost {
   slug: string;
 }
 
-export default function BlogSection() {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface BlogSectionSSRProps {
+  posts: BlogPost[];
+}
 
-  // API'den blog yazılarını çek
-  useEffect(() => {
-    const fetchBlogPosts = async () => {
-      try {
-        console.log('API çağrısı yapılıyor...');
-        const response = await fetch('http://localhost:8000/api/posts');
-        console.log('Response status:', response.status);
-        
-        if (!response.ok) {
-          throw new Error('HTTP ' + response.status + ': Blog yazıları yüklenemedi');
-        }
-        const data = await response.json();
-        console.log('APIden gelen data:', data);
-        setBlogPosts(data);
-      } catch (err) {
-        console.error('API Hatası:', err);
-        setError(err instanceof Error ? err.message : 'Bir hata oluştu');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBlogPosts();
-  }, []);
-
-  // Loading durumu
-  if (loading) {
-    return (
-      <section id="blog" className="min-h-screen flex items-center justify-center p-8 md:p-16">
-        <div className="max-w-6xl w-full text-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-white"
-          >
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400"></div>
-            <p className="mt-4 text-gray-300">Blog yazıları yükleniyor...</p>
-          </motion.div>
-        </div>
-      </section>
-    );
-  }
-
-  // Error durumu
-  if (error) {
-    return (
-      <section id="blog" className="min-h-screen flex items-center justify-center p-8 md:p-16">
-        <div className="max-w-6xl w-full text-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-red-400"
-          >
-            <p className="text-xl">❌ {error}</p>
-            <p className="text-gray-300 mt-2">FastAPI sunucusunun çalıştığından emin olun.</p>
-            <p className="text-gray-400 text-sm mt-4">
-              Sunucu: <code>http://localhost:8000</code>
-            </p>
-          </motion.div>
-        </div>
-      </section>
-    );
-  }
-
+export default function BlogSectionSSR({ posts }: BlogSectionSSRProps) {
+  console.log('🚀 BlogSectionSSR çalışıyor! Posts:', posts);
   return (
     <section id="blog" className="min-h-screen flex items-center justify-center p-8 md:p-16">
       <div className="max-w-6xl w-full">
@@ -102,8 +38,25 @@ export default function BlogSection() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post, index) => (
+        {/* Empty State */}
+        {posts.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center py-20"
+          >
+            <div className="text-6xl mb-6">📝</div>
+            <h3 className="text-2xl font-bold text-white mb-4">Henüz Blog Yazısı Yok</h3>
+            <p className="text-gray-400 text-lg">
+              Yakında ilginç içerikler paylaşacağım. Takipte kalın!
+            </p>
+          </motion.div>
+        ) : (
+          <>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {posts.map((post, index) => (
             <motion.article
               key={post.id}
               initial={{ opacity: 0, y: 30 }}
@@ -212,19 +165,21 @@ export default function BlogSection() {
               {`{`}
             </div>
             <div className="text-white ml-8">
-              <span className="text-blue-300">"total_posts"</span>: <span className="text-yellow-300">{blogPosts.length}</span>,
+              <span className="text-blue-300">"total_posts"</span>: <span className="text-yellow-300">{posts.length}</span>,
             </div>
             <div className="text-white ml-8">
-              <span className="text-blue-300">"categories"</span>: <span className="text-yellow-300">{new Set(blogPosts.map(p => p.category)).size}</span>,
+              <span className="text-blue-300">"categories"</span>: <span className="text-yellow-300">{new Set(posts.map(p => p.category)).size}</span>,
             </div>
             <div className="text-white ml-8">
-              <span className="text-blue-300">"last_update"</span>: <span className="text-green-300">"{blogPosts[0]?.date}"</span>
+              <span className="text-blue-300">"last_update"</span>: <span className="text-green-300">"{posts[0]?.date}"</span>
             </div>
             <div className="text-white ml-4">
               {`}`}
             </div>
           </div>
         </motion.div>
+        </>
+        )}
       </div>
     </section>
   );
