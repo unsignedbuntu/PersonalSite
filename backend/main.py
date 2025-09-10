@@ -131,9 +131,9 @@ async def add_security_headers(request, call_next):
     # Security headers
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
-    response.headers["X-XSS-Protection"] = "1; mode=block"
+    # X-XSS-Protection deprecated - CSP kullanıyoruz
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
-    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
     
@@ -265,10 +265,13 @@ async def login(user_credentials: UserLogin, request: Request, db: Session = Dep
 @app.post("/api/admin/posts", response_model=BlogPostResponse)
 async def create_blog_post(
     post: BlogPostCreate,
+    request: Request,
     current_user: User = Depends(get_current_admin_user),
     db: Session = Depends(get_db)
 ):
     """Yeni blog yazısı oluştur (Admin only)"""
+    # Rate limiting for admin operations
+    rate_limit_check(request, max_requests=10, window_minutes=60)  # 10 işlem/saat
     db_post = BlogPost(
         title=post.title,
         content=post.content,
@@ -526,8 +529,14 @@ async def get_project(project_id: int):
 
 # Contact endpoint
 @app.post("/api/contact")
-async def send_contact_message(message: ContactMessageCreate, db: Session = Depends(get_db)):
+async def send_contact_message(
+    message: ContactMessageCreate, 
+    request: Request,
+    db: Session = Depends(get_db)
+):
     """İletişim formu mesajı gönder"""
+    # Rate limiting for contact form
+    rate_limit_check(request, max_requests=3, window_minutes=60)  # 3 mesaj/saat
     # Save to database
     db_message = ContactMessage(
         name=message.name,
