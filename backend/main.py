@@ -7,6 +7,11 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime, timedelta
 import json
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Local imports
 from database import get_db, create_tables, User, BlogPost, Project, ContactMessage
@@ -117,7 +122,7 @@ app = FastAPI(
 # CORS ayarları - Frontend'den isteklere izin vermek için
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],  # Next.js dev server
+    allow_origins=json.loads(os.getenv("CORS_ORIGINS", '["http://localhost:3000", "http://localhost:3001"]')),
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE"],  # Specific methods only
     allow_headers=["Content-Type", "Authorization"],  # Specific headers only
@@ -133,7 +138,7 @@ async def add_security_headers(request, call_next):
     response.headers["X-Frame-Options"] = "DENY"
     # X-XSS-Protection deprecated - CSP kullanıyoruz
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
-    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' https://cdn.jsdelivr.net;"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
     
@@ -151,85 +156,9 @@ def convert_tags_to_string(tags_list: List[str]) -> str:
     """Convert list tags to JSON string"""
     return json.dumps(tags_list)
 
-# Geçici veri - Database'e migrate edilecek
-blog_posts = [
-    {
-        "id": 1,
-        "title": "Modern Web Geliştirme Teknikleri",
-        "excerpt": "React, Next.js ve TypeScript kullanarak modern web uygulamaları geliştirme sürecinde dikkat edilmesi gereken önemli noktalar.",
-        "content": "Bu yazıda modern web geliştirme tekniklerini detaylı olarak inceleyeceğiz...",
-        "date": "2024-01-15",
-        "readTime": "5 dk",
-        "category": "Web Development",
-        "tags": ["React", "Next.js", "TypeScript"],
-        "slug": "modern-web-gelistirme-teknikleri"
-    },
-    {
-        "id": 2,
-        "title": "AI ve Machine Learning Trendleri",
-        "excerpt": "Yapay zeka ve makine öğrenmesi alanındaki son gelişmeler ve bu teknolojilerin gelecekteki potansiyel kullanım alanları.",
-        "content": "Yapay zeka dünyasında yaşanan hızlı değişimler...",
-        "date": "2024-01-10",
-        "readTime": "7 dk",
-        "category": "AI/ML",
-        "tags": ["AI", "Machine Learning", "Python"],
-        "slug": "ai-ve-machine-learning-trendleri"
-    },
-    {
-        "id": 3,
-        "title": "Clean Code Prensipleri",
-        "excerpt": "Temiz kod yazmanın önemi ve sürdürülebilir yazılım geliştirme süreçlerinde uygulanması gereken best practice'ler.",
-        "content": "Temiz kod yazmak sadece bir tercih değil, zorunluluktur...",
-        "date": "2024-01-05",
-        "readTime": "6 dk",
-        "category": "Software Engineering",
-        "tags": ["Clean Code", "Best Practices", "Development"],
-        "slug": "clean-code-prensipleri"
-    }
-]
+# Statik veriler kaldırıldı - Artık tamamen database'den çalışıyor
 
-projects_data = [
-    {
-        "id": 1,
-        "name": "Modern E-Commerce Platform",
-        "description": "Full-stack graduation project with AI-powered features. .NET Core Web API backend with comprehensive e-commerce functionality, Next.js frontend with modern UX, and Python microservice for AI image generation. Features multi-layer Redis caching, JWT authentication, and gamified loyalty program.",
-        "technologies": [".NET Core", "Next.js", "TypeScript", "Python", "Redis", "SQL Server", "Entity Framework", "JWT", "Docker", "Stable Diffusion AI"],
-        "github": "https://github.com/unsignedbuntu",
-        "demo": None
-    },
-    {
-        "id": 2,
-        "name": "RepsyAPI - Software Package System",
-        "description": "Enterprise-grade REST API for software package management inspired by Maven/npm. Features modular architecture with pluggable storage strategies (Filesystem & Minio S3), PostgreSQL database, and Docker containerization. Supports package deployment, versioning, and download operations.",
-        "technologies": ["Java", "Spring Boot", "PostgreSQL", "Minio S3", "Docker", "Maven", "REST API"],
-        "github": "https://github.com/unsignedbuntu/RepsyAPI",
-        "demo": None
-    },
-    {
-        "id": 3,
-        "name": "ESBAŞ B2B Data Processing System",
-        "description": "Professional internship project for real-time proximity card data processing. ASP.NET Core Web API backend integrated with MSSQL database and Entity Framework Core. React frontend with real-time filtering capabilities for B2B environment data visualization.",
-        "technologies": ["ASP.NET Core", "Entity Framework", "MSSQL", "React", "Proximity Card Integration", "Real-time Processing"],
-        "github": "https://github.com/unsignedbuntu",
-        "demo": None
-    },
-    {
-        "id": 4,
-        "name": "University Code Repository",
-        "description": "Comprehensive collection of academic projects and coursework including data structures implementations, OOP concepts, database systems, and automata theory. Features algorithms in C, Java projects, and educational resources developed throughout computer engineering studies.",
-        "technologies": ["C", "Java", "Data Structures", "OOP", "Database Design", "Algorithms"],
-        "github": "https://github.com/unsignedbuntu/FinalYearProject_Mobile",
-        "demo": None
-    },
-    {
-        "id": 5,
-        "name": "Personal Portfolio Website",
-        "description": "Modern portfolio website built from scratch to showcase full-stack development skills. Features FastAPI backend with dynamic content management, Next.js frontend with smooth animations, and comprehensive project showcase system.",
-        "technologies": ["FastAPI", "Next.js", "TypeScript", "Python", "Framer Motion", "Tailwind CSS"],
-        "github": "https://github.com/atalaydev/portfolio",
-        "demo": "https://atalaydev.vercel.app"
-    }
-]
+# Projeler de artık tamamen database'den gelecek
 
 # API Endpoints
 
@@ -276,11 +205,11 @@ async def create_blog_post(
         title=post.title,
         content=post.content,
         excerpt=post.excerpt,
-        author=post.author,
-        date=post.date,
+        category=post.category,
         tags=convert_tags_to_string(post.tags),
-        reading_time=post.reading_time,
-        slug=post.slug
+        read_time=post.read_time,
+        slug=f"{post.title.lower().replace(' ', '-')}-{datetime.now().strftime('%Y%m%d')}",
+        author_id=current_user.id
     )
     db.add(db_post)
     db.commit()
@@ -291,10 +220,11 @@ async def create_blog_post(
         id=db_post.id,
         title=db_post.title,
         excerpt=db_post.excerpt,
-        author=db_post.author,
-        date=db_post.date,
+        content=db_post.content,
+        date=db_post.created_at.strftime("%Y-%m-%d"),
+        readTime=db_post.read_time,
+        category=db_post.category,
         tags=convert_tags_to_list(db_post.tags),
-        reading_time=db_post.reading_time,
         slug=db_post.slug
     )
 
@@ -324,10 +254,11 @@ async def update_blog_post(
         id=db_post.id,
         title=db_post.title,
         excerpt=db_post.excerpt,
-        author=db_post.author,
-        date=db_post.date,
+        content=db_post.content,
+        date=db_post.created_at.strftime("%Y-%m-%d"),
+        readTime=db_post.read_time,
+        category=db_post.category,
         tags=convert_tags_to_list(db_post.tags),
-        reading_time=db_post.reading_time,
         slug=db_post.slug
     )
 
@@ -355,7 +286,7 @@ async def create_project(
 ):
     """Yeni proje oluştur (Admin only)"""
     db_project = Project(
-        title=project.title,
+        name=project.name,
         description=project.description,
         technologies=convert_tags_to_string(project.technologies),
         github=project.github,
@@ -367,7 +298,7 @@ async def create_project(
     
     return ProjectResponse(
         id=db_project.id,
-        title=db_project.title,
+        name=db_project.name,
         description=db_project.description,
         technologies=convert_tags_to_list(db_project.technologies),
         github=db_project.github,
@@ -398,7 +329,7 @@ async def update_project(
     
     return ProjectResponse(
         id=db_project.id,
-        title=db_project.title,
+        name=db_project.name,
         description=db_project.description,
         technologies=convert_tags_to_list(db_project.technologies),
         github=db_project.github,
@@ -460,12 +391,8 @@ async def root():
 # Blog endpoints
 @app.get("/api/posts", response_model=List[BlogPostResponse])
 async def get_blog_posts(db: Session = Depends(get_db)):
-    """Tüm blog yazılarını getir"""
+    """Tüm blog yazılarını getir - Sadece database'den"""
     db_posts = db.query(BlogPost).all()
-    
-    # If no posts in database, return static data
-    if not db_posts:
-        return blog_posts
     
     # Convert database posts to response format
     return [
@@ -473,45 +400,64 @@ async def get_blog_posts(db: Session = Depends(get_db)):
             id=post.id,
             title=post.title,
             excerpt=post.excerpt,
-            author=post.author,
-            date=post.date,
+            content=post.content,
+            date=post.created_at.strftime("%Y-%m-%d"),
+            readTime=post.read_time,
+            category=post.category,
             tags=convert_tags_to_list(post.tags),
-            reading_time=post.reading_time,
             slug=post.slug
         ) for post in db_posts
     ]
 
 @app.get("/api/posts/{post_id}", response_model=BlogPostResponse)
-async def get_blog_post(post_id: int):
-    """Belirli bir blog yazısını getir"""
-    for post in blog_posts:
-        if post["id"] == post_id:
-            return post
-    raise HTTPException(status_code=404, detail="Blog yazısı bulunamadı")
+async def get_blog_post(post_id: int, db: Session = Depends(get_db)):
+    """Belirli bir blog yazısını getir - Database'den"""
+    db_post = db.query(BlogPost).filter(BlogPost.id == post_id).first()
+    if not db_post:
+        raise HTTPException(status_code=404, detail="Blog yazısı bulunamadı")
+    
+    return BlogPostResponse(
+        id=db_post.id,
+        title=db_post.title,
+        excerpt=db_post.excerpt,
+        content=db_post.content,
+        date=db_post.created_at.strftime("%Y-%m-%d"),
+        readTime=db_post.read_time,
+        category=db_post.category,
+        tags=convert_tags_to_list(db_post.tags),
+        slug=db_post.slug
+    )
 
 @app.get("/api/posts/slug/{slug}", response_model=BlogPostResponse)
-async def get_blog_post_by_slug(slug: str):
-    """Slug ile blog yazısını getir"""
-    for post in blog_posts:
-        if post["slug"] == slug:
-            return post
-    raise HTTPException(status_code=404, detail="Blog yazısı bulunamadı")
+async def get_blog_post_by_slug(slug: str, db: Session = Depends(get_db)):
+    """Slug ile blog yazısını getir - Database'den"""
+    db_post = db.query(BlogPost).filter(BlogPost.slug == slug).first()
+    if not db_post:
+        raise HTTPException(status_code=404, detail="Blog yazısı bulunamadı")
+    
+    return BlogPostResponse(
+        id=db_post.id,
+        title=db_post.title,
+        excerpt=db_post.excerpt,
+        content=db_post.content,
+        date=db_post.created_at.strftime("%Y-%m-%d"),
+        readTime=db_post.read_time,
+        category=db_post.category,
+        tags=convert_tags_to_list(db_post.tags),
+        slug=db_post.slug
+    )
 
 # Projects endpoints
 @app.get("/api/projects", response_model=List[ProjectResponse])
 async def get_projects(db: Session = Depends(get_db)):
-    """Tüm projeleri getir"""
+    """Tüm projeleri getir - Sadece database'den"""
     db_projects = db.query(Project).all()
-    
-    # If no projects in database, return static data
-    if not db_projects:
-        return projects_data
     
     # Convert database projects to response format
     return [
         ProjectResponse(
             id=project.id,
-            title=project.title,
+            name=project.name,
             description=project.description,
             technologies=convert_tags_to_list(project.technologies),
             github=project.github,
@@ -520,12 +466,20 @@ async def get_projects(db: Session = Depends(get_db)):
     ]
 
 @app.get("/api/projects/{project_id}", response_model=ProjectResponse)
-async def get_project(project_id: int):
-    """Belirli bir projeyi getir"""
-    for project in projects_data:
-        if project["id"] == project_id:
-            return project
-    raise HTTPException(status_code=404, detail="Proje bulunamadı")
+async def get_project(project_id: int, db: Session = Depends(get_db)):
+    """Belirli bir projeyi getir - Database'den"""
+    db_project = db.query(Project).filter(Project.id == project_id).first()
+    if not db_project:
+        raise HTTPException(status_code=404, detail="Proje bulunamadı")
+    
+    return ProjectResponse(
+        id=db_project.id,
+        name=db_project.name,
+        description=db_project.description,
+        technologies=convert_tags_to_list(db_project.technologies),
+        github=db_project.github,
+        demo=db_project.demo
+    )
 
 # Contact endpoint
 @app.post("/api/contact")

@@ -5,15 +5,29 @@ from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func
 from datetime import datetime
 import os
+from dotenv import load_dotenv
 
-# Database URL - SQLite for development
-DATABASE_URL = "sqlite:///./portfolio.db"
+# Load environment variables
+load_dotenv()
 
-# Create engine
-engine = create_engine(
-    DATABASE_URL, 
-    connect_args={"check_same_thread": False}  # SQLite için gerekli
-)
+# Database URL - PostgreSQL for production, SQLite for development
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./portfolio.db")
+
+# Create engine with appropriate configuration
+if DATABASE_URL.startswith("postgresql"):
+    # PostgreSQL configuration
+    engine = create_engine(
+        DATABASE_URL,
+        pool_pre_ping=True,
+        pool_recycle=300,
+        echo=False  # Set to True for SQL debugging
+    )
+else:
+    # SQLite configuration (fallback)
+    engine = create_engine(
+        DATABASE_URL, 
+        connect_args={"check_same_thread": False}
+    )
 
 # Session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -84,6 +98,7 @@ class ContactMessage(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), nullable=False)
     email = Column(String(100), nullable=False)
+    subject = Column(String(200), nullable=False)
     message = Column(Text, nullable=False)
     is_read = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
