@@ -147,18 +147,18 @@ export default function AdminLogin() {
             </motion.button>
           </form>
 
-          {/* Default Credentials Info */}
+          {/* Security Notice */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg"
+            className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg"
           >
             <div className="text-center">
-              <p className="text-blue-300 text-sm font-medium mb-2">Varsayılan Giriş Bilgileri:</p>
-              <div className="text-gray-300 text-sm space-y-1">
-                <p><span className="text-blue-300">Kullanıcı:</span> admin</p>
-                <p><span className="text-blue-300">Şifre:</span> admin123</p>
+              <p className="text-yellow-300 text-sm font-medium mb-2">🔒 Güvenlik Bildirimi</p>
+              <div className="text-gray-300 text-sm">
+                <p>Admin giriş bilgileri güvenlik nedeniyle gizlenmiştir.</p>
+                <p>Lütfen sistem yöneticisi ile iletişime geçin.</p>
               </div>
             </div>
           </motion.div>

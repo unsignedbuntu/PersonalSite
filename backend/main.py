@@ -94,15 +94,16 @@ async def lifespan(app: FastAPI):
     try:
         admin_user = db.query(User).filter(User.username == "admin").first()
         if not admin_user:
+            default_password = os.getenv("ADMIN_DEFAULT_PASSWORD", "SecureAdminPass2024!")
             admin_user = User(
                 username="admin",
                 email="admin@portfolio.com",
-                hashed_password=get_password_hash("admin123"),  # Change in production!
+                hashed_password=get_password_hash(default_password),
                 is_admin=True
             )
             db.add(admin_user)
             db.commit()
-            print("✅ Default admin user created: admin/admin123")
+            print("✅ Default admin user created with secure password")
     finally:
         db.close()
     

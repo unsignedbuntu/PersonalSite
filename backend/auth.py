@@ -10,7 +10,7 @@ from database import get_db, User
 import os
 
 # Security Configuration
-SECRET_KEY = os.getenv("SECRET_KEY", "your-super-secret-key-change-in-production")
+SECRET_KEY = os.getenv("SECRET_KEY", "your-super-secure-jwt-secret-key-change-this-in-production-2024")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

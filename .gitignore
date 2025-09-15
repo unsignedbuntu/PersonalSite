@@ -27,10 +27,17 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.env
 backend/.env
 backend/portfolio.db
 backend/__pycache__/
+
+# security files
+*.key
+*.pem
+*.crt
+*.p12
+.secrets/
+secrets.json
 
 # vercel
 .vercel
