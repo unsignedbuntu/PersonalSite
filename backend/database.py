@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Database URL - PostgreSQL for production, SQLite for development
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./portfolio.db")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Create engine with appropriate configuration
 if DATABASE_URL.startswith("postgresql"):

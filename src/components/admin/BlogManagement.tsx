@@ -19,10 +19,10 @@ interface BlogPost {
   title: string;
   excerpt: string;
   content?: string;
-  author: string;
   date: string;
+  readTime: string;
+  category: string;
   tags: string[];
-  reading_time: string;
   slug: string;
 }
 
@@ -36,6 +36,15 @@ export default function BlogManagement({ token }: BlogManagementProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+  const [formLoading, setFormLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    excerpt: '',
+    content: '',
+    category: '',
+    tags: '',
+    read_time: ''
+  });
 
   useEffect(() => {
     fetchPosts();
@@ -75,9 +84,83 @@ export default function BlogManagement({ token }: BlogManagementProps) {
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormLoading(true);
+
+    try {
+      const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+      const payload = {
+        ...formData,
+        tags: tagsArray
+      };
+
+      const url = editingPost 
+        ? `http://localhost:8000/api/admin/posts/${editingPost.id}`
+        : 'http://localhost:8000/api/admin/posts';
+      
+      const method = editingPost ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        
+        if (editingPost) {
+          setPosts(posts.map(post => post.id === editingPost.id ? result : post));
+        } else {
+          setPosts([result, ...posts]);
+        }
+        
+        resetForm();
+        alert(editingPost ? 'Blog yazısı güncellendi!' : 'Blog yazısı oluşturuldu!');
+      } else {
+        const error = await response.json();
+        alert(`Hata: ${error.detail || 'Bir hata oluştu!'}`);
+      }
+    } catch (error) {
+      console.error('Error saving post:', error);
+      alert('Bir hata oluştu!');
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      excerpt: '',
+      content: '',
+      category: '',
+      tags: '',
+      read_time: ''
+    });
+    setShowCreateModal(false);
+    setEditingPost(null);
+  };
+
+  const openEditModal = (post: BlogPost) => {
+    setFormData({
+      title: post.title,
+      excerpt: post.excerpt,
+      content: post.content || '',
+      category: post.category,
+      tags: post.tags.join(', '),
+      read_time: post.readTime
+    });
+    setEditingPost(post);
+  };
+
   const filteredPosts = posts.filter(post =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    post.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
     post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
@@ -173,11 +256,11 @@ export default function BlogManagement({ token }: BlogManagementProps) {
         </div>
 
         <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
-          <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-400 text-sm">Ort. Okuma</p>
               <p className="text-2xl font-bold text-white">
-                {posts.length > 0 ? Math.round(posts.reduce((acc, post) => acc + parseInt(post.reading_time), 0) / posts.length) : 0} dk
+                {posts.length > 0 ? Math.round(posts.reduce((acc, post) => acc + parseInt(post.readTime.replace(' min', '')), 0) / posts.length) : 0} dk
               </p>
             </div>
             <div className="p-2 bg-yellow-500/20 rounded-lg">
@@ -214,7 +297,7 @@ export default function BlogManagement({ token }: BlogManagementProps) {
               <thead className="bg-gray-700/50 border-b border-gray-600">
                 <tr>
                   <th className="text-left py-4 px-6 text-gray-300 font-medium">Başlık</th>
-                  <th className="text-left py-4 px-6 text-gray-300 font-medium">Yazar</th>
+                  <th className="text-left py-4 px-6 text-gray-300 font-medium">Kategori</th>
                   <th className="text-left py-4 px-6 text-gray-300 font-medium">Tarih</th>
                   <th className="text-left py-4 px-6 text-gray-300 font-medium">Okuma Süresi</th>
                   <th className="text-left py-4 px-6 text-gray-300 font-medium">Etiketler</th>
@@ -236,11 +319,11 @@ export default function BlogManagement({ token }: BlogManagementProps) {
                         <p className="text-gray-400 text-sm line-clamp-2 mt-1">{post.excerpt}</p>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-gray-300">{post.author}</td>
+                    <td className="py-4 px-6 text-gray-300">{post.category}</td>
                     <td className="py-4 px-6 text-gray-300">
                       {new Date(post.date).toLocaleDateString('tr-TR')}
                     </td>
-                    <td className="py-4 px-6 text-gray-300">{post.reading_time}</td>
+                    <td className="py-4 px-6 text-gray-300">{post.readTime}</td>
                     <td className="py-4 px-6">
                       <div className="flex flex-wrap gap-1">
                         {post.tags.slice(0, 2).map((tag, tagIndex) => (
@@ -261,7 +344,7 @@ export default function BlogManagement({ token }: BlogManagementProps) {
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
-                          onClick={() => setEditingPost(post)}
+                          onClick={() => openEditModal(post)}
                           className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-all"
                           title="Düzenle"
                         >
@@ -286,32 +369,125 @@ export default function BlogManagement({ token }: BlogManagementProps) {
         )}
       </div>
 
-      {/* Create/Edit Modal Placeholder */}
+      {/* Create/Edit Modal */}
       {(showCreateModal || editingPost) && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gray-800 border border-gray-700 rounded-lg p-6 max-w-2xl w-full mx-4"
+            className="bg-gray-800 border border-gray-700 rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto"
           >
-            <h3 className="text-xl font-bold text-white mb-4">
+            <h3 className="text-xl font-bold text-white mb-6">
               {editingPost ? 'Blog Yazısını Düzenle' : 'Yeni Blog Yazısı'}
             </h3>
-            <p className="text-gray-400 mb-6">Modal içeriği yakında...</p>
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={() => {
-                  setShowCreateModal(false);
-                  setEditingPost(null);
-                }}
-                className="px-4 py-2 text-gray-300 hover:text-white transition-all"
-              >
-                İptal
-              </button>
-              <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all">
-                Kaydet
-              </button>
-            </div>
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-gray-300 text-sm font-medium mb-2">
+                    Başlık *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="Blog yazısı başlığı"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-gray-300 text-sm font-medium mb-2">
+                    Kategori *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.category}
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="Teknoloji, Yazılım, vs."
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-gray-300 text-sm font-medium mb-2">
+                  Özet *
+                </label>
+                <textarea
+                  required
+                  value={formData.excerpt}
+                  onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
+                  rows={3}
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="Yazı özeti (kısa açıklama)"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-300 text-sm font-medium mb-2">
+                  İçerik *
+                </label>
+                <textarea
+                  required
+                  value={formData.content}
+                  onChange={(e) => setFormData({...formData, content: e.target.value})}
+                  rows={10}
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="Blog yazısının tam içeriği (Markdown desteklenir)"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-gray-300 text-sm font-medium mb-2">
+                    Etiketler
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.tags}
+                    onChange={(e) => setFormData({...formData, tags: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="React, Next.js, TypeScript (virgülle ayırın)"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-gray-300 text-sm font-medium mb-2">
+                    Okuma Süresi *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.read_time}
+                    onChange={(e) => setFormData({...formData, read_time: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="5 min"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-4 pt-4 border-t border-gray-700">
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="px-6 py-2 text-gray-300 hover:text-white transition-all"
+                  disabled={formLoading}
+                >
+                  İptal
+                </button>
+                <button
+                  type="submit"
+                  disabled={formLoading}
+                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                >
+                  {formLoading && <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />}
+                  <span>{editingPost ? 'Güncelle' : 'Oluştur'}</span>
+                </button>
+              </div>
+            </form>
           </motion.div>
         </div>
       )}
