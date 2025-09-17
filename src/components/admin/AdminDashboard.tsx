@@ -21,7 +21,7 @@ interface Stats {
   totalProjects: number;
   totalMessages: number;
 }
-
+console.log('AdminDashboard');
 export default function AdminDashboard() {
   const { user, token, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -34,28 +34,46 @@ export default function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
+      console.log('Fetching stats with token:', token);
+      
       // Fetch posts, projects, and messages counts
       const [postsRes, projectsRes, messagesRes] = await Promise.all([
         fetch('http://localhost:8000/api/posts'),
         fetch('http://localhost:8000/api/projects'),
         fetch('http://localhost:8000/api/admin/messages', {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         })
       ]);
 
+      console.log('Response status:', {
+        posts: postsRes.status,
+        projects: projectsRes.status,
+        messages: messagesRes.status
+      });
+
       const [posts, projects, messages] = await Promise.all([
-        postsRes.json(),
-        projectsRes.json(),
-        messagesRes.json()
+        postsRes.ok ? postsRes.json() : [],
+        projectsRes.ok ? projectsRes.json() : [],
+        messagesRes.ok ? messagesRes.json() : []
       ]);
 
+      console.log('Fetched data:', { posts, projects, messages });
+
       setStats({
-        totalPosts: posts.length || 0,
-        totalProjects: projects.length || 0,
-        totalMessages: messages.length || 0
+        totalPosts: Array.isArray(posts) ? posts.length : 0,
+        totalProjects: Array.isArray(projects) ? projects.length : 0,
+        totalMessages: Array.isArray(messages) ? messages.length : 0
       });
     } catch (error) {
       console.error('Stats fetch error:', error);
+      setStats({
+        totalPosts: 0,
+        totalProjects: 0,
+        totalMessages: 0
+      });
     } finally {
       setLoading(false);
     }

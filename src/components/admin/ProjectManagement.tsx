@@ -35,7 +35,15 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
-
+  const [formLoading, setFormLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    technologies: '',
+    github: '',
+    demo: ''
+  });
+//trial
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -72,6 +80,79 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
       console.error('Error deleting project:', error);
       alert('Bir hata oluştu!');
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormLoading(true);
+
+    try {
+      const technologiesArray = formData.technologies.split(',').map(tech => tech.trim()).filter(tech => tech);
+      const payload = {
+        ...formData,
+        technologies: technologiesArray,
+        demo: formData.demo || null
+      };
+
+      const url = editingProject 
+        ? `http://localhost:8000/api/admin/projects/${editingProject.id}`
+        : 'http://localhost:8000/api/admin/projects';
+      
+      const method = editingProject ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        
+        if (editingProject) {
+          setProjects(projects.map(project => project.id === editingProject.id ? result : project));
+        } else {
+          setProjects([result, ...projects]);
+        }
+        
+        resetForm();
+        alert(editingProject ? 'Proje güncellendi!' : 'Proje oluşturuldu!');
+      } else {
+        const error = await response.json();
+        alert(`Hata: ${error.detail || 'Bir hata oluştu!'}`);
+      }
+    } catch (error) {
+      console.error('Error saving project:', error);
+      alert('Bir hata oluştu!');
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      description: '',
+      technologies: '',
+      github: '',
+      demo: ''
+    });
+    setShowCreateModal(false);
+    setEditingProject(null);
+  };
+
+  const openEditModal = (project: Project) => {
+    setFormData({
+      name: project.name,
+      description: project.description,
+      technologies: project.technologies.join(', '),
+      github: project.github,
+      demo: project.demo || ''
+    });
+    setEditingProject(project);
   };
 
   const filteredProjects = projects.filter(project =>
@@ -232,7 +313,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      onClick={() => setEditingProject(project)}
+                      onClick={() => openEditModal(project)}
                       className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-all"
                       title="Düzenle"
                     >
@@ -308,32 +389,109 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
         )}
       </div>
 
-      {/* Create/Edit Modal Placeholder */}
+      {/* Create/Edit Modal */}
       {(showCreateModal || editingProject) && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gray-800 border border-gray-700 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+            className="bg-gray-800 border border-gray-700 rounded-lg p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto"
           >
-            <h3 className="text-xl font-bold text-white mb-4">
+            <h3 className="text-xl font-bold text-white mb-6">
               {editingProject ? 'Projeyi Düzenle' : 'Yeni Proje'}
             </h3>
-            <p className="text-gray-400 mb-6">Modal içeriği yakında...</p>
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={() => {
-                  setShowCreateModal(false);
-                  setEditingProject(null);
-                }}
-                className="px-4 py-2 text-gray-300 hover:text-white transition-all"
-              >
-                İptal
-              </button>
-              <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all">
-                Kaydet
-              </button>
-            </div>
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-gray-300 text-sm font-medium mb-2">
+                  Proje Adı *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="Modern E-Commerce Platform"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-300 text-sm font-medium mb-2">
+                  Açıklama *
+                </label>
+                <textarea
+                  required
+                  value={formData.description}
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  rows={4}
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="Projenin detaylı açıklaması..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-300 text-sm font-medium mb-2">
+                  Teknolojiler *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.technologies}
+                  onChange={(e) => setFormData({...formData, technologies: e.target.value})}
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="React, Next.js, TypeScript, PostgreSQL (virgülle ayırın)"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-gray-300 text-sm font-medium mb-2">
+                    GitHub Repository *
+                  </label>
+                  <input
+                    type="url"
+                    required
+                    value={formData.github}
+                    onChange={(e) => setFormData({...formData, github: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="https://github.com/username/repo"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-gray-300 text-sm font-medium mb-2">
+                    Demo URL (İsteğe Bağlı)
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.demo}
+                    onChange={(e) => setFormData({...formData, demo: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="https://demo.example.com"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-4 pt-4 border-t border-gray-700">
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="px-6 py-2 text-gray-300 hover:text-white transition-all"
+                  disabled={formLoading}
+                >
+                  İptal
+                </button>
+                <button
+                  type="submit"
+                  disabled={formLoading}
+                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                >
+                  {formLoading && <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />}
+                  <span>{editingProject ? 'Güncelle' : 'Oluştur'}</span>
+                </button>
+              </div>
+            </form>
           </motion.div>
         </div>
       )}
