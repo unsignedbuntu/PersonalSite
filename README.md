@@ -11,17 +11,31 @@ Modern terminal-themed portfolio website inspired by ddaniel.dev.
 - **Modern Stack**: Next.js 14, TypeScript, Tailwind CSS, Framer Motion
 - **Scroll Navigation**: Right-side navigation dots with active section highlighting
 - **Hidden Scrollbar**: Clean, modern appearance without visible scrollbars
+- **Admin Panel**: Full-featured admin panel for managing blog posts and projects
+- **Real-time Cache Management**: Automatic cache invalidation when content is updated
+- **Database Integration**: PostgreSQL backend with FastAPI
 
 ## 🛠️ Technologies
 
+### Frontend
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **Font**: JetBrains Mono
+- **Cache**: Next.js ISR with on-demand revalidation
+
+### Backend
+- **API**: FastAPI
+- **Database**: PostgreSQL
+- **ORM**: SQLAlchemy
+- **Authentication**: JWT
+- **HTTP Client**: httpx
 
 ## 📦 Installation
+
+### Frontend Setup
 
 1. **Clone the repository:**
 ```bash
@@ -29,23 +43,75 @@ git clone <repository-url>
 cd personal-portfolio
 ```
 
-2. **Install dependencies:**
+2. **Install frontend dependencies:**
 ```bash
 npm install
 # or
 yarn install
 ```
 
-3. **Start the development server:**
+3. **Start the frontend development server:**
 ```bash
 npm run dev
 # or
 yarn dev
 ```
 
-4. **Open in your browser:**
+### Backend Setup
+
+1. **Navigate to backend directory:**
+```bash
+cd backend
 ```
-http://localhost:3000
+
+2. **Create virtual environment:**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. **Install backend dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+4. **Set up database:**
+```bash
+# Create database and run migrations
+python -c "from database import create_tables; create_tables()"
+```
+
+5. **Start the backend server:**
+```bash
+python main.py
+```
+
+### Access the Application
+
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **Admin Panel**: http://localhost:3000/admin (login required)
+
+## ⚡ Cache Management
+
+This system uses automatic cache management:
+
+### Automatic Cache Invalidation
+- Cache is automatically cleared when blog posts are created/updated/deleted
+- Cache is automatically cleared when projects are created/updated/deleted
+- No need to restart the backend
+
+### Cache Durations
+- **Blog Posts**: 60 seconds (1 minute)
+- **Projects**: 300 seconds (5 minutes)
+
+### Manual Cache Clearing
+If needed, you can manually clear the cache:
+
+```bash
+curl -X POST http://localhost:3000/api/revalidate \
+  -H "Content-Type: application/json" \
+  -d '{"tag": "blog-posts", "secret": "your-super-secret-revalidate-key-2024"}'
 ```
 
 ## 🎨 Customization

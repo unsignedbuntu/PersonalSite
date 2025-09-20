@@ -21,7 +21,7 @@ interface Stats {
   totalProjects: number;
   totalMessages: number;
 }
-console.log('AdminDashboard');
+
 export default function AdminDashboard() {
   const { user, token, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');

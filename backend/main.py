@@ -8,6 +8,7 @@ from typing import List, Optional
 from datetime import datetime, timedelta
 import json
 import os
+import httpx
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -19,6 +20,27 @@ from auth import (
     authenticate_user, create_access_token, get_current_user, get_current_admin_user,
     get_password_hash, rate_limit_check
 )
+
+# Cache temizleme fonksiyonu
+async def invalidate_frontend_cache(tag: str):
+    """Frontend cache'ini temizle"""
+    try:
+        revalidate_secret = os.getenv("REVALIDATE_SECRET", "your-super-secret-revalidate-key-2024")
+        frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{frontend_url}/api/revalidate",
+                json={"tag": tag, "secret": revalidate_secret},
+                timeout=5.0
+            )
+            if response.status_code == 200:
+                print(f"✅ Frontend cache temizlendi: {tag}")
+            else:
+                print(f"⚠️ Cache temizleme başarısız: {response.status_code}")
+    except Exception as e:
+        print(f"❌ Cache temizleme hatası: {e}")
+        # Cache temizleme başarısız olsa da ana işlemi etkilemesin
 
 
 # Pydantic modelleri (Request/Response)
@@ -216,6 +238,9 @@ async def create_blog_post(
     db.commit()
     db.refresh(db_post)
     
+    # Frontend cache'ini temizle
+    await invalidate_frontend_cache("blog-posts")
+    
     # Convert back to response format
     return BlogPostResponse(
         id=db_post.id,
@@ -251,6 +276,9 @@ async def update_blog_post(
     db.commit()
     db.refresh(db_post)
     
+    # Frontend cache'ini temizle
+    await invalidate_frontend_cache("blog-posts")
+    
     return BlogPostResponse(
         id=db_post.id,
         title=db_post.title,
@@ -276,6 +304,10 @@ async def delete_blog_post(
     
     db.delete(db_post)
     db.commit()
+    
+    # Frontend cache'ini temizle
+    await invalidate_frontend_cache("blog-posts")
+    
     return {"message": "Blog yazısı başarıyla silindi"}
 
 # Admin Project Management
@@ -296,6 +328,9 @@ async def create_project(
     db.add(db_project)
     db.commit()
     db.refresh(db_project)
+    
+    # Frontend cache'ini temizle
+    await invalidate_frontend_cache("projects")
     
     return ProjectResponse(
         id=db_project.id,
@@ -328,6 +363,9 @@ async def update_project(
     db.commit()
     db.refresh(db_project)
     
+    # Frontend cache'ini temizle
+    await invalidate_frontend_cache("projects")
+    
     return ProjectResponse(
         id=db_project.id,
         name=db_project.name,
@@ -350,6 +388,10 @@ async def delete_project(
     
     db.delete(db_project)
     db.commit()
+    
+    # Frontend cache'ini temizle
+    await invalidate_frontend_cache("projects")
+    
     return {"message": "Proje başarıyla silindi"}
 
 # Admin Contact Messages

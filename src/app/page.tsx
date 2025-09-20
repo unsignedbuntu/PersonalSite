@@ -16,7 +16,7 @@ async function getBlogPosts() {
   try {
     console.log('🌐 Server-side API çağrısı: Blog Posts');
     const res = await fetch(`${API_BASE_URL}/api/posts`, {
-      next: { revalidate: 3600 } // ISR: 1 saat cache
+      next: { revalidate: 60, tags: ['blog-posts'] } // ISR: 1 dakika cache + tag ile manuel revalidation
     });
     
     if (!res.ok) {
@@ -37,7 +37,7 @@ async function getProjects() {
   try {
     console.log('🌐 Server-side API çağrısı: Projects');
     const res = await fetch(`${API_BASE_URL}/api/projects`, {
-      next: { revalidate: 7200 } // ISR: 2 saat cache (projeler daha az değişir)
+      next: { revalidate: 300, tags: ['projects'] } // ISR: 5 dakika cache + tag ile manuel revalidation
     });
     
     if (!res.ok) {
