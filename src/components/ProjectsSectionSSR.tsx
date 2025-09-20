@@ -29,7 +29,7 @@ export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps
         className="max-w-6xl w-full"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 text-center">PROJECTS</h2>
-        <div className="w-24 h-1 bg-yellow-300 mx-auto mb-8"></div>
+        <div className="w-24 h-1 bg-red-400 mx-auto mb-8"></div>
         <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-12 text-center">
           Showcase of my full-stack development projects and technical expertise
         </p>
@@ -60,9 +60,9 @@ export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
                   whileHover={{ y: -5 }}
-                  className="bg-gray-800/50 p-6 rounded-lg text-left flex flex-col border border-gray-700 hover:border-purple-400/50 transition-all duration-300 group"
+                  className="bg-gray-800/50 p-6 rounded-lg text-left flex flex-col border border-gray-700 hover:border-red-400/50 transition-all duration-300 group"
                 >
-                  <h3 className="text-xl font-bold text-yellow-300 mb-2 group-hover:text-white transition-colors">
+                  <h3 className="text-xl font-bold text-red-400 mb-2 group-hover:text-white transition-colors">
                     {project.name}
                   </h3>
                   <p className="text-gray-300 mb-4 flex-grow leading-relaxed">
@@ -72,7 +72,7 @@ export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps
                     {project.technologies.map(tech => (
                       <span 
                         key={tech} 
-                        className="bg-gray-700 text-xs px-2 py-1 rounded border border-gray-600 text-gray-300 hover:border-purple-400/50 transition-colors"
+                        className="bg-gray-700 text-xs px-2 py-1 rounded border border-gray-600 text-gray-300 hover:border-red-400/50 transition-colors"
                       >
                         {tech}
                       </span>
@@ -85,7 +85,7 @@ export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className="text-gray-400 hover:text-yellow-300 transition-colors"
+                      className="text-gray-400 hover:text-red-400 transition-colors"
                     >
                       <Github className="w-5 h-5" />
                     </motion.a>
@@ -96,7 +96,7 @@ export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className="text-gray-400 hover:text-yellow-300 transition-colors"
+                        className="text-gray-400 hover:text-red-400 transition-colors"
                       >
                         <ExternalLink className="w-5 h-5" />
                       </motion.a>
@@ -122,20 +122,20 @@ export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps
               </div>
               
               <div className="font-mono text-sm space-y-2">
-                <div className="text-green-400">
+                <div className="text-red-400">
                   <span className="text-gray-400">$</span> cat project_stats.json
                 </div>
                 <div className="text-white ml-4">
                   {`{`}
                 </div>
                 <div className="text-white ml-8">
-                  <span className="text-blue-300">"total_projects"</span>: <span className="text-yellow-300">{projects.length}</span>,
+                  <span className="text-blue-300">"total_projects"</span>: <span className="text-red-400">{projects.length}</span>,
                 </div>
                 <div className="text-white ml-8">
-                  <span className="text-blue-300">"technologies"</span>: <span className="text-yellow-300">{new Set(projects.flatMap(p => p.technologies)).size}</span>,
+                  <span className="text-blue-300">"technologies"</span>: <span className="text-red-400">{new Set(projects.flatMap(p => p.technologies)).size}</span>,
                 </div>
                 <div className="text-white ml-8">
-                  <span className="text-blue-300">"github_repos"</span>: <span className="text-green-300">{projects.filter(p => p.github).length}</span>
+                  <span className="text-blue-300">"github_repos"</span>: <span className="text-red-300">{projects.filter(p => p.github).length}</span>
                 </div>
                 <div className="text-white ml-4">
                   {`}`}

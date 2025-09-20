@@ -130,8 +130,8 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400"></div>
+      <div className="flex items-center justify-center py-20"> 
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-400"></div>
         <span className="ml-3 text-gray-300">Mesajlar yükleniyor...</span>
       </div>
     );
@@ -149,7 +149,7 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
           onClick={fetchMessages}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all"
+          className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all"
         >
           <Eye className="w-4 h-4" />
           <span>Yenile</span>
@@ -165,13 +165,13 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
             placeholder="Mesajlarda ara..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
           />
         </div>
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value as any)}
-          className="px-4 py-2 bg-gray-800/50 border border-gray-700 text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="px-4 py-2 bg-gray-800/50 border border-gray-700 text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
         >
           <option value="all">Tümü</option>
           <option value="today">Bugün</option>
@@ -188,8 +188,8 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
               <p className="text-gray-400 text-sm">Toplam Mesaj</p>
               <p className="text-2xl font-bold text-white">{messages.length}</p>
             </div>
-            <div className="p-2 bg-blue-500/20 rounded-lg">
-              <MessageCircle className="w-5 h-5 text-blue-400" />
+            <div className="p-2 bg-red-500/20 rounded-lg">
+              <MessageCircle className="w-5 h-5 text-red-400" />
             </div>
           </div>
         </div>
@@ -206,8 +206,8 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
                 }).length}
               </p>
             </div>
-            <div className="p-2 bg-green-500/20 rounded-lg">
-              <Clock className="w-5 h-5 text-green-400" />
+            <div className="p-2 bg-red-500/20 rounded-lg">
+              <Clock className="w-5 h-5 text-red-400" />
             </div>
           </div>
         </div>
@@ -224,8 +224,8 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
                 }).length}
               </p>
             </div>
-            <div className="p-2 bg-purple-500/20 rounded-lg">
-              <Calendar className="w-5 h-5 text-purple-400" />
+            <div className="p-2 bg-red-500/20 rounded-lg">
+              <Calendar className="w-5 h-5 text-red-400" />
             </div>
           </div>
         </div>
@@ -238,8 +238,8 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
                 {new Set(messages.map(msg => msg.email)).size}
               </p>
             </div>
-            <div className="p-2 bg-yellow-500/20 rounded-lg">
-              <Mail className="w-5 h-5 text-yellow-400" />
+            <div className="p-2 bg-red-500/20 rounded-lg">
+              <Mail className="w-5 h-5 text-red-400" />
             </div>
           </div>
         </div>
@@ -265,7 +265,7 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 hover:border-purple-400/50 transition-all"
+                className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 hover:border-red-400/50 transition-all"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -296,7 +296,7 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
                       <motion.button
                         onClick={() => setSelectedMessage(message)}
                         whileHover={{ scale: 1.05 }}
-                        className="flex items-center space-x-2 px-3 py-1 bg-blue-600/20 text-blue-300 rounded border border-blue-500/30 hover:bg-blue-600/30 transition-all"
+                        className="flex items-center space-x-2 px-3 py-1 bg-red-600/20 text-red-300 rounded border border-red-500/30 hover:bg-red-600/30 transition-all"
                       >
                         <Eye className="w-4 h-4" />
                         <span className="text-sm">Detayları Gör</span>

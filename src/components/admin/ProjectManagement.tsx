@@ -164,7 +164,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400"></div>
         <span className="ml-3 text-gray-300">Projeler yükleniyor...</span>
       </div>
     );
@@ -182,7 +182,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
           onClick={() => setShowCreateModal(true)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all"
+          className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>Yeni Proje</span>
@@ -198,7 +198,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
             placeholder="Projelerde ara..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <motion.button
@@ -246,8 +246,8 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                 {new Set(projects.flatMap(project => project.technologies)).size}
               </p>
             </div>
-            <div className="p-2 bg-purple-500/20 rounded-lg">
-              <Code className="w-5 h-5 text-purple-400" />
+            <div className="p-2 bg-green-500/20 rounded-lg">
+              <Code className="w-5 h-5 text-green-400" />
             </div>
           </div>
         </div>
@@ -260,8 +260,8 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                 {projects.filter(project => project.github).length}
               </p>
             </div>
-            <div className="p-2 bg-yellow-500/20 rounded-lg">
-              <Github className="w-5 h-5 text-yellow-400" />
+            <div className="p-2 bg-green-500/20 rounded-lg">
+              <Github className="w-5 h-5 text-green-400" />
             </div>
           </div>
         </div>
@@ -282,7 +282,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
               <motion.button
                 onClick={() => setShowCreateModal(true)}
                 whileHover={{ scale: 1.05 }}
-                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all"
+                className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all"
               >
                 Yeni Proje Oluştur
               </motion.button>
@@ -297,12 +297,12 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 group hover:border-purple-400/50 transition-all"
+                className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 group hover:border-green-400/50 transition-all"
               >
                 {/* Project Header */}
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex-1">
-                    <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors line-clamp-1">
+                    <h3 className="text-lg font-bold text-white group-hover:text-green-300 transition-colors line-clamp-1">
                       {project.name}
                     </h3>
                     <p className="text-gray-400 text-sm line-clamp-2 mt-1">
@@ -336,7 +336,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                   {project.technologies.slice(0, 3).map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className="inline-block bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded border border-purple-400/30"
+                      className="inline-block bg-green-500/20 text-green-300 text-xs px-2 py-1 rounded border border-green-400/30"
                     >
                       {tech}
                     </span>
@@ -411,7 +411,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="Modern E-Commerce Platform"
                 />
               </div>
@@ -425,7 +425,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   rows={4}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="Projenin detaylı açıklaması..."
                 />
               </div>
@@ -439,7 +439,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                   required
                   value={formData.technologies}
                   onChange={(e) => setFormData({...formData, technologies: e.target.value})}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="React, Next.js, TypeScript, PostgreSQL (virgülle ayırın)"
                 />
               </div>
@@ -454,7 +454,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                     required
                     value={formData.github}
                     onChange={(e) => setFormData({...formData, github: e.target.value})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
                     placeholder="https://github.com/username/repo"
                   />
                 </div>
@@ -467,7 +467,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                     type="url"
                     value={formData.demo}
                     onChange={(e) => setFormData({...formData, demo: e.target.value})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
                     placeholder="https://demo.example.com"
                   />
                 </div>
@@ -485,7 +485,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
                 <button
                   type="submit"
                   disabled={formLoading}
-                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                 >
                   {formLoading && <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />}
                   <span>{editingProject ? 'Güncelle' : 'Oluştur'}</span>
