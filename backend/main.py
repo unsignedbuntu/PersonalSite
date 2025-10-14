@@ -10,6 +10,8 @@ import json
 import os
 import httpx
 from dotenv import load_dotenv
+import re
+import unicodedata
 
 # Load environment variables
 load_dotenv()
@@ -20,6 +22,21 @@ from auth import (
     authenticate_user, create_access_token, get_current_user, get_current_admin_user,
     get_password_hash, rate_limit_check
 )
+
+def slugify(value: str) -> str:
+    """
+    Türkçe karakterleri de destekleyen, metni URL dostu hale getiren fonksiyon.
+    """
+    turkish_map = {
+        ord('ı'): 'i', ord('İ'): 'i', ord('ğ'): 'g', ord('Ğ'): 'g',
+        ord('ü'): 'u', ord('Ü'): 'u', ord('ş'): 's', ord('Ş'): 's',
+        ord('ö'): 'o', ord('Ö'): 'o', ord('ç'): 'c', ord('Ç'): 'c',
+    }
+    value = value.translate(turkish_map)
+    value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+    value = re.sub(r'[^\w\s-]', '', value).strip().lower()
+    value = re.sub(r'[-\s]+', '-', value)
+    return value
 
 # Cache temizleme fonksiyonu
 async def invalidate_frontend_cache(tag: str):
@@ -231,7 +248,7 @@ async def create_blog_post(
         category=post.category,
         tags=convert_tags_to_string(post.tags),
         read_time=post.read_time,
-        slug=f"{post.title.lower().replace(' ', '-')}-{datetime.now().strftime('%Y%m%d')}",
+        slug=f"{slugify(post.title)}-{datetime.now().strftime('%Y%m%d%H%M%S')}",
         author_id=current_user.id
     )
     db.add(db_post)
@@ -266,6 +283,10 @@ async def update_blog_post(
     if not db_post:
         raise HTTPException(status_code=404, detail="Blog yazısı bulunamadı")
     
+    # Başlık değiştiyse slug'ı da güncelle
+    if post.title != db_post.title:
+        db_post.slug = f"{slugify(post.title)}-{datetime.now().strftime('%Y%m%d%H%M%S')}"
+
     # Update fields
     for field, value in post.dict().items():
         if field == "tags":

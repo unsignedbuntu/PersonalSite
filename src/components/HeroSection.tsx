@@ -19,10 +19,10 @@ export default function HeroSection() {
 
         <TypeAnimation
           sequence={[
-            'BUG DEVELOPER', 1500,
-            'CODE WIZARD', 1500,
-            'RUST ENJOYER', 1500,
-            'SOFTWARE ENGINEER', 1500,
+            '.NET DEVELOPER', 1500,
+            'FULL-STACK DEVELOPER', 1500,
+            'COMPUTER ENGINEER', 1500,
+            'CREATIVE PROBLEM SOLVER', 1500,
           ]}
           wrapper="h2"
           speed={40}
