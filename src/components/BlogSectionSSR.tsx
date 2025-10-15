@@ -1,5 +1,6 @@
 // src/components/BlogSectionSSR.tsx
 'use client';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import BlogCard from './BlogCard';
@@ -8,7 +9,7 @@ interface BlogPost {
   id: number;
   title: string;
   excerpt: string;
-  content?: string; // Made content optional
+  content?: string;
   date: string;
   readTime: string;
   category: string;
@@ -21,6 +22,8 @@ interface BlogSectionSSRProps {
 }
 
 export default function BlogSectionSSR({ posts }: BlogSectionSSRProps) {
+  const [expandedIndex, setExpandedIndex] = useState<number | false>(false);
+
   return (
     <section id="blog" className="min-h-screen flex items-center justify-center p-8 md:p-16">
       <div className="max-w-6xl w-full">
@@ -54,13 +57,19 @@ export default function BlogSectionSSR({ posts }: BlogSectionSSRProps) {
           </motion.div>
         ) : (
           <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
               {posts.slice(0, 3).map((post, index) => (
-                <BlogCard key={post.id} post={post} index={index} />
+                <BlogCard 
+                  key={post.id} 
+                  post={post} 
+                  index={index} 
+                  expanded={expandedIndex === index}
+                  setExpanded={setExpandedIndex}
+                />
               ))}
             </div>
 
-            {posts.length > 0 && (
+            {posts.length > 3 && (
               <div className="mt-12 text-center">
                 <Link href="/blog" passHref>
                   <motion.a
