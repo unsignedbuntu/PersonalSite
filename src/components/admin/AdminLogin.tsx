@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { Lock, User, AlertCircle, Shield } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function AdminLogin() {
   const { login } = useAuth();
   const [credentials, setCredentials] = useState({
@@ -20,7 +22,7 @@ export default function AdminLogin() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8000/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

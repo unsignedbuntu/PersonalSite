@@ -15,6 +15,8 @@ import {
   CheckCircle
 } from 'lucide-react';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface ContactMessage {
   id: number;
   name: string;
@@ -41,7 +43,7 @@ export default function ContactMessages({ token }: ContactMessagesProps) {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/admin/messages', {
+      const response = await fetch(`${API_BASE_URL}/api/admin/messages`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

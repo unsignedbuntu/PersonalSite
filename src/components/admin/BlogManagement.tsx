@@ -14,6 +14,8 @@ import {
   Filter
 } from 'lucide-react';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface BlogPost {
   id: number;
   title: string;
@@ -52,7 +54,7 @@ export default function BlogManagement({ token }: BlogManagementProps) {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/posts');
+      const response = await fetch(`${API_BASE_URL}/api/posts`);
       const data = await response.json();
       setPosts(data);
     } catch (error) {
@@ -66,7 +68,7 @@ export default function BlogManagement({ token }: BlogManagementProps) {
     if (!confirm('Bu blog yazısını silmek istediğinizden emin misiniz?')) return;
 
     try {
-      const response = await fetch(`http://localhost:8000/api/admin/posts/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/posts/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -96,8 +98,8 @@ export default function BlogManagement({ token }: BlogManagementProps) {
       };
 
       const url = editingPost 
-        ? `http://localhost:8000/api/admin/posts/${editingPost.id}`
-        : 'http://localhost:8000/api/admin/posts';
+        ? `${API_BASE_URL}/api/admin/posts/${editingPost.id}`
+        : `${API_BASE_URL}/api/admin/posts`;
       
       const method = editingPost ? 'PUT' : 'POST';
 

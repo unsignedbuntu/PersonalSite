@@ -9,7 +9,7 @@ import ContactSection from "@/components/ContactSection";
 import ScrollIndicator from "@/components/ScrollIndicator";
 
 // API Base URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Fetch functions
 async function getBlogPosts() {

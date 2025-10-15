@@ -16,6 +16,8 @@ import {
   GitBranch
 } from 'lucide-react';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface Project {
   id: number;
   name: string;
@@ -50,7 +52,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/projects');
+      const response = await fetch(`${API_BASE_URL}/api/projects`);
       const data = await response.json();
       setProjects(data);
     } catch (error) {
@@ -64,7 +66,7 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
     if (!confirm('Bu projeyi silmek istediğinizden emin misiniz?')) return;
 
     try {
-      const response = await fetch(`http://localhost:8000/api/admin/projects/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/projects/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -95,8 +97,8 @@ export default function ProjectManagement({ token }: ProjectManagementProps) {
       };
 
       const url = editingProject 
-        ? `http://localhost:8000/api/admin/projects/${editingProject.id}`
-        : 'http://localhost:8000/api/admin/projects';
+        ? `${API_BASE_URL}/api/admin/projects/${editingProject.id}`
+        : `${API_BASE_URL}/api/admin/projects`;
       
       const method = editingProject ? 'PUT' : 'POST';
 

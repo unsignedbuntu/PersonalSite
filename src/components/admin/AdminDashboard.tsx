@@ -16,6 +16,8 @@ import ProjectManagement from './ProjectManagement';
 import ContactMessages from './ContactMessages';
 import { useAuth } from '@/contexts/AuthContext';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface Stats {
   totalPosts: number;
   totalProjects: number;
@@ -38,9 +40,9 @@ export default function AdminDashboard() {
       
       // Fetch posts, projects, and messages counts
       const [postsRes, projectsRes, messagesRes] = await Promise.all([
-        fetch('http://localhost:8000/api/posts'),
-        fetch('http://localhost:8000/api/projects'),
-        fetch('http://localhost:8000/api/admin/messages', {
+        fetch(`${API_BASE_URL}/api/posts`),
+        fetch(`${API_BASE_URL}/api/projects`),
+        fetch(`${API_BASE_URL}/api/admin/messages`, {
           headers: { 
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
