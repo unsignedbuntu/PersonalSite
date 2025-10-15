@@ -15,26 +15,26 @@ export default function ContactSection() {
     {
       name: 'GitHub',
       icon: Github,
-      url: 'https://github.com/username',
-      command: 'git clone https://github.com/username'
+      url: 'https://github.com/unsignedbuntu',
+      command: 'git clone https://github.com/unsignedbuntu'
     },
     {
       name: 'LinkedIn',
       icon: Linkedin,
-      url: 'https://linkedin.com/in/username',
-      command: 'curl -X GET linkedin.com/in/username'
+      url: 'https://www.linkedin.com/in/atalay-beyaz%C4%B1t-b3a914214/',
+      command: 'curl -X GET linkedin.com/in/atalay-beyazit'
     },
     {
       name: 'Twitter',
       icon: Twitter,
-      url: 'https://twitter.com/username',
-      command: 'wget twitter.com/username'
+      url: 'https://x.com/AtalayByzt',
+      command: 'wget x.com/AtalayByzt'
     },
     {
       name: 'Email',
       icon: Mail,
-      url: 'mailto:your.email@example.com',
-      command: 'mail -s "Hello" your.email@example.com'
+      url: 'mailto:atalaybeyazit16@gmail.com',
+      command: 'mail -s "Hello" atalaybeyazit16@gmail.com'
     }
   ];
 
