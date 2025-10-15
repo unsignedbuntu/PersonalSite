@@ -160,12 +160,19 @@ app = FastAPI(
 )
 
 # CORS ayarları - Frontend'den isteklere izin vermek için
+# CORS (Cross-Origin Resource Sharing)
+origins = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://personal-site-theta-one.vercel.app",  # Vercel deployment
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=json.loads(os.getenv("CORS_ORIGINS", '["http://localhost:3000", "http://localhost:3001"]')),
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],  # Specific methods only
-    allow_headers=["Content-Type", "Authorization"],  # Specific headers only
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Security Headers Middleware
@@ -185,10 +192,10 @@ async def add_security_headers(request, call_next):
     return response
 
 # Helper functions
-def convert_tags_to_list(tags_str: str) -> List[str]:
+def convert_tags_to_list(tags_string: Optional[str]) -> List[str]:
     """Convert JSON string tags to list"""
     try:
-        return json.loads(tags_str) if tags_str else []
+        return json.loads(tags_string) if tags_string else []
     except:
         return []
 
