@@ -165,6 +165,7 @@ origins = [
     "http://localhost:3000",
     "http://localhost:3001",
     "https://personal-site-theta-one.vercel.app",  # Vercel deployment
+    "https://atalaybeyazit.vercel.app"
 ]
 
 app.add_middleware(
