@@ -45,3 +45,17 @@ secrets.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# -----------------------------------------------
+# IDE / EDITOR SPECIFIC CONFIG (Cursor, VS Code etc.)
+# -----------------------------------------------
+.vscode/
+.vs/
+.cursor*
+*.db
+*.db-shm
+*.db-wal
+*.sln.sqlite
+*.sqlite
+*.user
+ProjectSettings.json
