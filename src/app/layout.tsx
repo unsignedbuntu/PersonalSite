@@ -1,10 +1,6 @@
 // src/app/layout.tsx
 import './globals.css';
-import dynamic from 'next/dynamic';
-
-const CometCursor = dynamic(() => import('@/components/CometCursor'), {
-  ssr: false, 
-});
+import CometCursorWrapper from '@/components/CometCursorWrapper';
 
 export const metadata = {
   title: 'Atalay Beyazıt - Portföy',
@@ -21,7 +17,7 @@ export default function RootLayout({
       {/* Body etiketinde artık className yok, tüm stiller globals.css'ten geliyor */}
       <body>
         <div className="background-glow"></div>
-        <CometCursor />
+        <CometCursorWrapper />
         {children}
       </body>
     </html>
