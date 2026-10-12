@@ -25,18 +25,18 @@ export default function BlogSectionSSR({ posts }: BlogSectionSSRProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | false>(false);
 
   return (
-    <section id="blog" className="min-h-screen flex items-center justify-center p-8 md:p-16">
+    <section id="blog" className="min-h-screen flex items-center justify-center px-4 py-20 sm:px-8 md:p-16">
       <div className="max-w-6xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">BLOG</h2>
-          <div className="w-24 h-1 bg-purple-400 mx-auto mb-8"></div>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+          <div className="w-24 h-1 bg-purple-400 mx-auto mb-6 md:mb-8"></div>
+          <p className="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto">
             Teknoloji, yazılım geliştirme ve kişisel deneyimlerim hakkında yazılarım
           </p>
         </motion.div>
@@ -57,7 +57,7 @@ export default function BlogSectionSSR({ posts }: BlogSectionSSRProps) {
           </motion.div>
         ) : (
           <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8 items-start">
               {posts.slice(0, 3).map((post, index) => (
                 <BlogCard 
                   key={post.id} 
@@ -71,15 +71,12 @@ export default function BlogSectionSSR({ posts }: BlogSectionSSRProps) {
 
             {posts.length > 3 && (
               <div className="mt-12 text-center">
-                <Link href="/blog" passHref>
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-block px-8 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-lg hover:bg-gray-700/50 transition-all group"
-                  >
-                    Tüm Yazıları Görüntüle
-                    <span className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  </motion.a>
+                <Link
+                  href="/blog"
+                  className="inline-block px-8 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-lg hover:bg-gray-700/50 hover:scale-105 transition-all group"
+                >
+                  Tüm Yazıları Görüntüle
+                  <span className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </Link>
               </div>
             )}

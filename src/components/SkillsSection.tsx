@@ -26,32 +26,49 @@ export default function SkillsSection() {
   const secondColumnSkills = skills.slice(midpoint);
 
   return (
-    <section id="skills" className="min-h-screen flex items-center justify-center p-8 md:p-16">
+    <section id="skills" className="min-h-screen flex items-center justify-center px-4 py-20 sm:px-8 md:p-16">
       <div className="max-w-6xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="bg-gray-900/50 backdrop-blur-sm rounded-lg border border-gray-700 p-8 md:p-12"
+          className="bg-gray-900/50 backdrop-blur-sm rounded-lg border border-gray-700 p-5 sm:p-8 md:p-12"
         >
           <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
-            {/* Terminal başlığı */}
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <span className="text-gray-400 text-sm">skills.json</span>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-12">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-12">
             {/* Sol Taraf: Yazı Bölümü */}
             <motion.div /* ... */ className="w-full lg:w-1/3 text-gray-300">
-              <h2 className="text-5xl font-bold text-purple-400 mb-6">SKILLS {'{'}</h2>
-              <p className="text-lg leading-relaxed">
+              <h2 className="text-4xl sm:text-5xl font-bold text-purple-400 mb-6">SKILLS {'{'}</h2>
+              <p className="text-base sm:text-lg leading-relaxed">
                 I excel in dissecting complex problems into manageable tasks, essential for crafting robust, maintainable code in large-scale projects.
               </p>
-              <h2 className="text-5xl font-bold text-purple-400 mt-6">{'}'}</h2>
+              <h2 className="text-4xl sm:text-5xl font-bold text-purple-400 mt-6">{'}'}</h2>
             </motion.div>
 
-            {/* --- DEĞİŞİKLİK BURADA BAŞLIYOR --- */}
-            {/* Sağ Taraf: Yetenekler ve Neon Çizgi. Artık CSS Grid kullanıyoruz. */}
-            <div className="flex-1 grid grid-cols-[1fr_auto_1fr] items-center gap-x-8 lg:gap-x-12 w-full lg:w-2/3">
+            {/* Mobil / tablet: basit iki sütunlu grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 w-full lg:hidden">
+              {skills.map((skill) => (
+                <div
+                  key={skill.name}
+                  className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg border border-gray-700 bg-gray-800/40"
+                >
+                  <span className="shrink-0">{skill.icon}</span>
+                  <span className="font-mono text-xs sm:text-sm text-white truncate">{skill.name}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Masaüstü: Yetenekler ve Neon Çizgi */}
+            <div className="hidden lg:grid flex-1 grid-cols-[1fr_auto_1fr] items-center gap-x-12 w-full lg:w-2/3">
               
               {/* İlk Yetenek Sütunu (sağa hizalı) */}
               <div className="flex flex-col gap-y-8 items-end">
@@ -66,7 +83,7 @@ export default function SkillsSection() {
               </div>
 
               {/* Neon Dikey Çizgi */}
-              <motion.div /* ... */ className="neon-divider hidden lg:block" />
+              <motion.div /* ... */ className="neon-divider" />
             
               {/* İkinci Yetenek Sütunu (sola hizalı) */}
               <div className="flex flex-col gap-y-8 items-start">
@@ -80,7 +97,6 @@ export default function SkillsSection() {
                 ))}
               </div>
             </div>
-            {/* --- DEĞİŞİKLİK BURADA BİTİYOR --- */}
 
           </div>
         </motion.div>

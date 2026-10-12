@@ -12,8 +12,14 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: 'Atalay Beyazıt - Portföy',
-  description: 'Full Stack Developer',
+  title: 'Atalay Beyazıt | Computer Engineer & Full-Stack Developer',
+  description: 'Computer Engineer and Full-Stack Developer specializing in .NET Core and TypeScript.',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0a0a0a',
 };
 
 export default function RootLayout({
@@ -22,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="tr">
+    <html lang="en">
       <body className={jetbrainsMono.className}>
         <div className="background-glow"></div>
         <CometCursorWrapper />

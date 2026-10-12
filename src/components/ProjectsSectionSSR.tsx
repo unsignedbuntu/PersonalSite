@@ -2,7 +2,6 @@
 'use client';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
-import Link from 'next/link';
 
 // Project interface
 interface Project {
@@ -20,7 +19,7 @@ interface ProjectsSectionSSRProps {
 
 export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps) {
   return (
-    <section id="projects" className="min-h-screen flex items-center justify-center p-8 md:p-16">
+    <section id="projects" className="min-h-screen flex items-center justify-center px-4 py-20 sm:px-8 md:p-16">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -28,10 +27,10 @@ export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps
         viewport={{ once: true }}
         className="max-w-6xl w-full"
       >
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">PROJECTS</h2>
-          <div className="w-24 h-1 bg-red-400 mx-auto mb-8"></div>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+          <div className="w-24 h-1 bg-red-400 mx-auto mb-6 md:mb-8"></div>
+          <p className="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto">
             Showcase of my full-stack development projects and technical expertise
           </p>
         </div>
@@ -51,7 +50,7 @@ export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps
             </p>
           </motion.div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
             {projects.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -83,17 +82,29 @@ export default function ProjectsSectionSSR({ projects }: ProjectsSectionSSRProps
                   )}
                 </div>
                 <div className="mt-auto pt-4 border-t border-gray-700/50 flex justify-end items-center space-x-4">
-                  <Link href={project.github} target="_blank" rel="noopener noreferrer">
-                    <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="text-gray-400 hover:text-white transition-colors">
-                      <Github className="w-5 h-5" />
-                    </motion.a>
-                  </Link>
+                  <motion.a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${project.name} source code on GitHub`}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="p-1 text-gray-400 hover:text-white transition-colors"
+                  >
+                    <Github className="w-5 h-5" />
+                  </motion.a>
                   {project.demo && (
-                    <Link href={project.demo} target="_blank" rel="noopener noreferrer">
-                      <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="text-gray-400 hover:text-white transition-colors">
-                        <ExternalLink className="w-5 h-5" />
-                      </motion.a>
-                    </Link>
+                    <motion.a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${project.name} live demo`}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-1 text-gray-400 hover:text-white transition-colors"
+                    >
+                      <ExternalLink className="w-5 h-5" />
+                    </motion.a>
                   )}
                 </div>
               </motion.div>

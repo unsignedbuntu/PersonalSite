@@ -28,14 +28,14 @@ export default function AboutSection() {
   ];
 
   return (
-    <section id="about" className="min-h-screen flex items-center justify-center p-8 md:p-16">
+    <section id="about" className="min-h-screen flex items-center justify-center px-4 py-20 sm:px-8 md:p-16">
       <div className="max-w-6xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="bg-gray-900/50 backdrop-blur-sm rounded-lg border border-gray-700 p-8 md:p-12"
+          className="bg-gray-900/50 backdrop-blur-sm rounded-lg border border-gray-700 p-5 sm:p-8 md:p-12"
         >
           {/* Terminal Header */}
           <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
@@ -47,7 +47,7 @@ export default function AboutSection() {
             <span className="text-gray-400 text-sm">about_me.sh</span>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-12">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-12">
             {/* Left Side: Introduction */}
             <motion.div 
               initial={{ opacity: 0, x: -50 }}
@@ -56,9 +56,9 @@ export default function AboutSection() {
               viewport={{ once: true }}
               className="w-full lg:w-1/2 text-gray-300"
             >
-              <h2 className="text-5xl font-bold text-blue-400 mb-6">ABOUT {'{'}</h2>
-              
-              <div className="space-y-4 text-lg leading-relaxed">
+              <h2 className="text-4xl sm:text-5xl font-bold text-blue-400 mb-6">ABOUT {'{'}</h2>
+
+              <div className="space-y-4 text-base sm:text-lg leading-relaxed">
                 <p>
                   Hello, my name is <span className="text-white font-semibold">Atalay Beyazıt</span>. 
                   I'm a recent and passionate Computer Engineering graduate, and I specialize in 
@@ -69,7 +69,7 @@ export default function AboutSection() {
                   I thrive on solving complex problems with a <span className="text-blue-400">polyglot development approach</span>. 
                   My professional activities are centered around building scalable applications 
                   using modern technologies like <span className="text-cyan-300">.NET</span>, 
-                  <span className="text-cyan-300"> Next.js</span>, and <span className="text-cyan-300e ">SQL</span>.
+                  <span className="text-cyan-300"> Next.js</span>, and <span className="text-cyan-300">SQL</span>.
                 </p>
 
                 <p>
@@ -80,12 +80,12 @@ export default function AboutSection() {
                 </p>
               </div>
               
-              <h2 className="text-5xl font-bold text-blue-400 mt-6">{'}'}</h2>
+              <h2 className="text-4xl sm:text-5xl font-bold text-blue-400 mt-6">{'}'}</h2>
             </motion.div>
 
             {/* Right Side: Highlights Grid */}
             <div className="w-full lg:w-1/2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 {highlights.map((highlight, index) => (
                   <motion.div
                     key={index}
@@ -119,7 +119,7 @@ export default function AboutSection() {
                 viewport={{ once: true }}
                 className="mt-8 p-4 bg-gray-800/30 rounded-lg border border-gray-600"
               >
-                <div className="font-mono text-sm space-y-2">
+                <div className="font-mono text-xs sm:text-sm space-y-2 break-words">
                   <div className="text-green-400">
                     <span className="text-gray-400">$</span> whoami
                   </div>

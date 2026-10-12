@@ -46,14 +46,14 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="min-h-screen flex items-center justify-center p-8 md:p-24">
+    <section id="contact" className="min-h-screen flex items-center justify-center px-4 py-20 sm:px-8 md:p-16 lg:p-24">
       <div className="max-w-6xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="bg-gray-900/50 backdrop-blur-sm rounded-lg border border-gray-700 p-8"
+          className="bg-gray-900/50 backdrop-blur-sm rounded-lg border border-gray-700 p-5 sm:p-8"
         >
           {/* Terminal Header */}
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-700">
@@ -65,7 +65,7 @@ export default function ContactSection() {
             <span className="text-gray-400 text-sm">contact.sh</span>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
             {/* Contact Form */}
             <div>
               <div className="mb-8">
@@ -149,15 +149,15 @@ export default function ContactSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    whileHover={{ scale: 1.02, x: 10 }}
-                    className="flex items-center space-x-4 p-4 border border-gray-600 rounded-lg hover:border-green-400/50 transition-all duration-300 group"
+                    whileHover={{ scale: 1.02, x: 4 }}
+                    className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 border border-gray-600 rounded-lg hover:border-green-400/50 transition-all duration-300 group"
                   >
-                    <social.icon className="w-6 h-6 text-green-400" />
-                    <div className="flex-1">
+                    <social.icon className="w-6 h-6 shrink-0 text-green-400" />
+                    <div className="flex-1 min-w-0">
                       <div className="text-white font-mono">
                         {social.name}
                       </div>
-                      <div className="text-gray-400 text-sm font-mono">
+                      <div className="text-gray-400 text-xs sm:text-sm font-mono truncate">
                         {social.command}
                       </div>
                     </div>
@@ -179,7 +179,7 @@ export default function ContactSection() {
                 <div className="font-mono text-sm space-y-1">
                   <div className="text-green-400">Status: Online ●</div>
                   <div className="text-white">Response time: ~24h</div>
-                  <div className="text-gray-400">Location: Turkey</div>
+                  <div className="text-gray-400">Location: Izmir, Turkey</div>
                 </div>
               </motion.div>
             </div>
