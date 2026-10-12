@@ -15,14 +15,15 @@ export async function POST(request: NextRequest) {
 
     // Tag'e göre cache'i temizle
     if (tag === 'blog-posts') {
-      revalidateTag('blog-posts');
+      revalidateTag('blog-posts', { expire: 0 });
       console.log('✅ Blog posts cache revalidated');
     } else if (tag === 'projects') {
-      revalidateTag('projects');
+      revalidateTag('projects', { expire: 0 });
       console.log('✅ Projects cache revalidated');
     } else if (tag === 'all') {
-      revalidateTag('blog-posts');
-      revalidateTag('projects');
+      // Next 16: second argument is required; expire: 0 makes admin edits show up immediately
+      revalidateTag('blog-posts', { expire: 0 });
+      revalidateTag('projects', { expire: 0 });
       console.log('✅ All cache revalidated');
     } else {
       return NextResponse.json({ message: 'Invalid tag' }, { status: 400 });
